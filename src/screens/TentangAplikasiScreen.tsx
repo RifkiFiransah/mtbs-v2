@@ -1,0 +1,104 @@
+import React from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { BackgroundWrapper } from "../components/BackgroundWrapper";
+import { HeaderSafeArea } from "../components/HeaderSafeArea";
+
+interface TentangAplikasiScreenProps {
+  navigation: any;
+}
+
+export const TentangAplikasiScreen = ({
+  navigation,
+}: TentangAplikasiScreenProps) => {
+  return (
+    <BackgroundWrapper>
+      <SafeAreaView style={{ flex: 1 }}>
+        <HeaderSafeArea
+          title="Tentang Aplikasi"
+          showBack
+          onBackPress={() => navigation.goBack()}
+        />
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View style={styles.card}>
+            <Text style={styles.title}>MTBS Pintar</Text>
+            <Text style={styles.version}>Versi 1.0.0</Text>
+            <View style={styles.divider} />
+            <Text style={styles.description}>
+              Aplikasi MTBS Pintar adalah sebuah inovasi yang dirancang untuk
+              membantu para orang tua dan tenaga kesehatan dalam menerapkan
+              Manajemen Terpadu Balita Sakit (MTBS). Aplikasi ini memberikan
+              panduan interaktif dan informasi penting mengenai penanganan dan
+              perawatan balita saat sakit.
+            </Text>
+            <Text style={styles.description}>
+              Dengan MTBS Pintar, diharapkan penangan medis pada balita sakit
+              dapat dilakukan lebih cepat dan tepat sasaran.
+            </Text>
+            <View style={styles.divider} />
+            <Text style={styles.subtitle}>Pemilik Aplikasi</Text>
+            <Text style={styles.description}>
+              Aplikasi ini dikembangkan oleh [Nama Pemilik / Institusi]. Kami
+              berdedikasi untuk terus meningkatkan kualitas kesehatan keluarga
+              Indonesia.
+            </Text>
+            <Text style={styles.subtitle}>Hubungi Kami</Text>
+            <Text style={styles.description}>Email: kontak@mtbspintar.com</Text>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </BackgroundWrapper>
+  );
+};
+
+const styles = StyleSheet.create({
+  headerRow: {
+    paddingTop: 40,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    backgroundColor: "transparent",
+  },
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+  card: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 16,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#1E3A8A",
+    marginBottom: 4,
+  },
+  version: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 16,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "#EEEEEE",
+    marginVertical: 16,
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 8,
+    marginTop: 8,
+  },
+  description: {
+    fontSize: 14,
+    color: "#444",
+    lineHeight: 22,
+    marginBottom: 12,
+  },
+});
