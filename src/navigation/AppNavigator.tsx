@@ -6,10 +6,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // Import Screens
 import { AboutMTBSScreen } from "../screens/AboutMTBSScreen";
 import { BantuanScreen } from "../screens/BantuanScreen";
+import { EdukasiScreen } from "../screens/beranda/EdukasiScreen";
+import { RiwayatPemeriksaanScreen } from "../screens/beranda/RiwayatPemeriksaanScreen";
+import { SagaScreen } from "../screens/beranda/SagaScreen";
 import { BerandaScreen } from "../screens/BerandaScreen";
-import { CekKondisiScreen } from "../screens/CekKondisiScreen";
 import { KebijakanPrivasiScreen } from "../screens/KebijakanPrivasiScreen";
-import { PerawatanDiRumahScreen } from "../screens/PerawatanDiRumahScreen";
 import { ProfilScreen } from "../screens/ProfilScreen";
 import {
   KejangScreen,
@@ -24,6 +25,18 @@ import { TanyaJawabScreen } from "../screens/TanyaJawabScreen";
 import { TentangAplikasiScreen } from "../screens/TentangAplikasiScreen";
 import { TindakanScreen } from "../screens/TindakanScreen";
 import { WelcomeScreen } from "../screens/WelcomeScreen";
+
+// Import Edukasi Screens
+import { FAQScreen } from "../screens/beranda/edukasi/FAQScreen";
+import { KuisEdukasiScreen } from "../screens/beranda/edukasi/KuisEdukasiScreen";
+import { PenangananAwalScreen } from "../screens/beranda/edukasi/PenangananAwalScreen";
+import { PencegahanPenyakitScreen } from "../screens/beranda/edukasi/PencegahanPenyakitScreen";
+import { PenyakitAnakScreen } from "../screens/beranda/edukasi/PenyakitAnakScreen";
+import { PosterInfografisScreen } from "../screens/beranda/edukasi/PosterInfografisScreen";
+import { SegitigaSAGAScreen } from "../screens/beranda/edukasi/SegitigaSAGAScreen";
+import { TandaBahayaBalitaScreen } from "../screens/beranda/edukasi/TandaBahayaBalitaScreen";
+import { TandaBahayaUmumScreen } from "../screens/beranda/edukasi/TandaBahayaUmumScreen";
+import { VideoEdukasiScreen } from "../screens/beranda/edukasi/VideoEdukasiScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -129,14 +142,6 @@ export default function AppNavigator() {
         {/* Detail Screens (Stack screens that overlay the tabs) */}
 
         <Stack.Screen
-          name="CekKondisi"
-          component={CekKondisiScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
           name="TandaBahaya"
           component={TandaBahayaScreen}
           options={{
@@ -200,17 +205,116 @@ export default function AppNavigator() {
             headerShown: false,
           }}
         />
+
         <Stack.Screen
-          name="PerawatanDiRumah"
-          component={PerawatanDiRumahScreen}
+          name="TanyaJawab"
+          component={TanyaJawabScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        {/* New Beranda Sub-Screens */}
+        <Stack.Screen
+          name="Saga"
+          component={SagaScreen}
           options={{
             headerShown: false,
           }}
         />
 
         <Stack.Screen
-          name="TanyaJawab"
-          component={TanyaJawabScreen}
+          name="Edukasi"
+          component={EdukasiScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="RiwayatPemeriksaan"
+          component={RiwayatPemeriksaanScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        {/* Edukasi Sub-Screens */}
+        <Stack.Screen
+          name="TandaBahayaUmum"
+          component={TandaBahayaUmumScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="SegitigaSAGA"
+          component={SegitigaSAGAScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="TandaBahayaBalita"
+          component={TandaBahayaBalitaScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="PenangananAwal"
+          component={PenangananAwalScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="PenyakitAnak"
+          component={PenyakitAnakScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="VideoEdukasi"
+          component={VideoEdukasiScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="FAQ"
+          component={FAQScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="KuisEdukasi"
+          component={KuisEdukasiScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="PosterInfografis"
+          component={PosterInfografisScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="PencegahanPenyakit"
+          component={PencegahanPenyakitScreen}
           options={{
             headerShown: false,
           }}

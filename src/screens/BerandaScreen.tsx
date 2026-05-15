@@ -97,9 +97,9 @@ export const BerandaScreen = ({ navigation }: BerandaScreenProps) => {
       zIndex: 999,
     },
     iconContainer: {
-      width: 56,
-      height: 56,
-      borderRadius: 28, // Membuat ikon bulat
+      width: 100,
+      height: 100,
+      borderRadius: 100, // Membuat ikon bulat
       justifyContent: "center",
       alignItems: "center",
       marginBottom: 12,
@@ -115,52 +115,36 @@ export const BerandaScreen = ({ navigation }: BerandaScreenProps) => {
 
   const menuItems = [
     {
-      id: "warning",
-      title: "Tanda Bahaya\nUmum",
-      icon: "warning",
-      iconColor: "#EF4444", // Merah solid
-      bgColor: "#FEE2E2", // Merah pastel
-      onPress: () => navigation.navigate("TandaBahaya"),
-    },
-    {
-      id: "checkmark",
-      title: "Cek Kondisi\nBalita",
-      icon: "check-circle",
-      iconColor: "#3B82F6", // Biru solid
+      id: "saga",
+      title: "Pemeriksaan\nSAGA",
+      icon: "monitor-heart",
+      iconColor: "#1E40AF", // Biru gelap
       bgColor: "#DBEAFE", // Biru pastel
-      onPress: () => navigation.navigate("CekKondisi"),
+      onPress: () => navigation.navigate("Saga"),
     },
     {
-      id: "medical",
-      title: "Apa yang harus\nDilakukan",
-      icon: "medical-services",
-      iconColor: "#10B981", // Hijau solid
+      id: "edukasi",
+      title: "Edukasi",
+      icon: "menu-book",
+      iconColor: "#059669", // Hijau gelap
       bgColor: "#D1FAE5", // Hijau pastel
-      onPress: () => navigation.navigate("Tindakan"),
+      onPress: () => navigation.navigate("Edukasi"),
     },
     {
-      id: "hospital",
-      title: "Perawatan\nDi Rumah",
-      icon: "local-hospital",
-      iconColor: "#8B5CF6", // Ungu solid
-      bgColor: "#EDE9FE", // Ungu pastel
-      onPress: () => navigation.navigate("PerawatanDiRumah"),
-    },
-    {
-      id: "question",
-      title: "Tanya Jawab",
-      icon: "help-center",
-      iconColor: "#F59E0B", // Oranye solid
+      id: "riwayat",
+      title: "Riwayat\nPemeriksaan",
+      icon: "assignment",
+      iconColor: "#D97706", // Oranye gelap
       bgColor: "#FEF3C7", // Oranye pastel
-      onPress: () => navigation.navigate("TanyaJawab"),
+      onPress: () => navigation.navigate("RiwayatPemeriksaan"),
     },
     {
-      id: "welcome",
-      title: "Kembali ke\nWelcome",
-      icon: "exit-to-app",
-      iconColor: "#6B7280", // Abu-abu solid
-      bgColor: "#F3F4F6", // Abu-abu pastel
-      onPress: () => navigation.navigate("Welcome"),
+      id: "sos",
+      title: "Bantuan\nDarurat",
+      icon: "sos",
+      iconColor: "#DC2626", // Merah gelap
+      bgColor: "#FEE2E2", // Merah pastel
+      onPress: () => navigation.navigate("Bantuan"),
     },
   ];
 
@@ -211,7 +195,7 @@ export const BerandaScreen = ({ navigation }: BerandaScreenProps) => {
                 >
                   <MaterialIcons
                     name={item.icon as any}
-                    size={28}
+                    size={60}
                     color={item.iconColor}
                   />
                 </View>
