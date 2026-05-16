@@ -29,13 +29,14 @@ export const TandaBahayaUmumScreen = ({ navigation }: any) => {
 
         <View style={styles.contentBox}>
           <View style={styles.illustrationBox}>
-            <MaterialIcons name="person-check" size={100} color="#1E40AF" />
+            <MaterialIcons name="person" size={100} color="#1E40AF" />
           </View>
 
           <Text style={styles.sectionTitle}>Pengertian Tanda Bahaya Umum</Text>
           <Text style={styles.content}>
             Tanda bahaya umum adalah kondisi pada anak yang dapat berkembang
-            menjadi penyakit berat atau ausal jika tidak ditangani segera.
+            menjadi penyakit berat atau gawat darurat jika tidak ditangani
+            segera.
           </Text>
 
           <Text style={styles.sectionTitle}>
@@ -45,26 +46,26 @@ export const TandaBahayaUmumScreen = ({ navigation }: any) => {
             <View style={styles.bulletItem}>
               <Text style={styles.bullet}>•</Text>
               <Text style={styles.bulletText}>
-                Dapat menyelamatkan komplikasi serius
+                Dapat menyebabkan komplikasi serius
               </Text>
             </View>
             <View style={styles.bulletItem}>
               <Text style={styles.bullet}>•</Text>
               <Text style={styles.bulletText}>
-                Kondisi anak bisa membubuk cepat
+                Kondisi anak bisa memburuk cepat
               </Text>
             </View>
             <View style={styles.bulletItem}>
               <Text style={styles.bullet}>•</Text>
-              <Text style={styles.bulletText}>Dapat penginapan jiwa</Text>
+              <Text style={styles.bulletText}>Dapat mengancam jiwa</Text>
             </View>
           </View>
 
           <View style={styles.warningBox}>
             <MaterialIcons name="info" size={24} color="#DC2626" />
             <Text style={styles.warningText}>
-              Segera bawa anak ke fasilitas kesehatan bila ditemukan tanda
-              bahaya.
+              Segera bawa anak kefasilitas kesehatan terdekat jika ditemukan
+              tanda bahaya.
             </Text>
           </View>
 

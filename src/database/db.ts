@@ -38,12 +38,22 @@ export const initDB = async () => {
           child_id INTEGER,
           tanggal_pemeriksaan TEXT NOT NULL,
           jam_pemeriksaan TEXT NOT NULL,
+          nik TEXT,
+          alamat TEXT,
+          daerah_endemis_malaria TEXT,
+          rdt_malaria_result TEXT,
           nama_anak TEXT NOT NULL,
-          umur TEXT,
-          berat_badan REAL,
-          tinggi_badan REAL,
           gender TEXT,
+          umur_tahun INTEGER,
+          umur_bulan INTEGER,
+          berat_badan REAL,
+          pb_tb REAL,
+          lila REAL,
+          lingkar_kepala REAL,
+          suhu REAL,
           keluhan_utama TEXT,
+          kunjungan_pertama TEXT,
+          kunjungan_ulang TEXT,
           answers TEXT NOT NULL,
           classification TEXT,
           status TEXT,
@@ -360,12 +370,22 @@ export interface SagaRecord {
   child_id?: number;
   tanggal_pemeriksaan: string;
   jam_pemeriksaan: string;
+  nik?: string;
+  alamat?: string;
+  daerah_endemis_malaria?: string;
+  rdt_malaria_result?: string;
   nama_anak: string;
-  umur?: string;
-  berat_badan?: number;
-  tinggi_badan?: number;
   gender?: string;
+  umur_tahun?: number;
+  umur_bulan?: number;
+  berat_badan?: number;
+  pb_tb?: number;
+  lila?: number;
+  lingkar_kepala?: number;
+  suhu?: number;
   keluhan_utama?: string;
+  kunjungan_pertama?: string;
+  kunjungan_ulang?: string;
   answers: string; // JSON string
   classification: string;
   status?: string;
@@ -400,12 +420,22 @@ export const addSagaRecord = async (
   child_id: number | undefined,
   tanggal_pemeriksaan: string,
   jam_pemeriksaan: string,
-  nama_anak: string,
-  umur?: string,
-  berat_badan?: number,
-  tinggi_badan?: number,
+  nik?: string,
+  alamat?: string,
+  daerah_endemis_malaria?: string,
+  rdt_malaria_result?: string,
+  nama_anak?: string,
   gender?: string,
+  umur_tahun?: number,
+  umur_bulan?: number,
+  berat_badan?: number,
+  pb_tb?: number,
+  lila?: number,
+  lingkar_kepala?: number,
+  suhu?: number,
   keluhan_utama?: string,
+  kunjungan_pertama?: string,
+  kunjungan_ulang?: string,
   answers?: string,
   classification?: string,
   status?: string,
@@ -413,20 +443,32 @@ export const addSagaRecord = async (
   try {
     const result = await db.runAsync(
       `INSERT INTO saga_records (
-        child_id, tanggal_pemeriksaan, jam_pemeriksaan, nama_anak, 
-        umur, berat_badan, tinggi_badan, gender, keluhan_utama, 
+        child_id, tanggal_pemeriksaan, jam_pemeriksaan, nik, alamat, 
+        daerah_endemis_malaria, rdt_malaria_result, nama_anak, gender,
+        umur_tahun, umur_bulan, berat_badan, pb_tb, lila, lingkar_kepala,
+        suhu, keluhan_utama, kunjungan_pertama, kunjungan_ulang, 
         answers, classification, status
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         child_id ?? null,
         tanggal_pemeriksaan,
         jam_pemeriksaan,
-        nama_anak,
-        umur || null,
-        berat_badan ?? null,
-        tinggi_badan ?? null,
+        nik || null,
+        alamat || null,
+        daerah_endemis_malaria || null,
+        rdt_malaria_result || null,
+        nama_anak || null,
         gender || null,
+        umur_tahun ?? null,
+        umur_bulan ?? null,
+        berat_badan ?? null,
+        pb_tb ?? null,
+        lila ?? null,
+        lingkar_kepala ?? null,
+        suhu ?? null,
         keluhan_utama || null,
+        kunjungan_pertama || null,
+        kunjungan_ulang || null,
         answers || "{}",
         classification || null,
         status || null,
@@ -443,12 +485,22 @@ export const updateSagaRecord = async (
   id: number,
   tanggal_pemeriksaan: string,
   jam_pemeriksaan: string,
-  nama_anak: string,
-  umur?: string,
-  berat_badan?: number,
-  tinggi_badan?: number,
+  nik?: string,
+  alamat?: string,
+  daerah_endemis_malaria?: string,
+  rdt_malaria_result?: string,
+  nama_anak?: string,
   gender?: string,
+  umur_tahun?: number,
+  umur_bulan?: number,
+  berat_badan?: number,
+  pb_tb?: number,
+  lila?: number,
+  lingkar_kepala?: number,
+  suhu?: number,
   keluhan_utama?: string,
+  kunjungan_pertama?: string,
+  kunjungan_ulang?: string,
   answers?: string,
   classification?: string,
   status?: string,
@@ -456,19 +508,32 @@ export const updateSagaRecord = async (
   try {
     await db.runAsync(
       `UPDATE saga_records SET 
-        tanggal_pemeriksaan = ?, jam_pemeriksaan = ?, nama_anak = ?, 
-        umur = ?, berat_badan = ?, tinggi_badan = ?, gender = ?, 
-        keluhan_utama = ?, answers = ?, classification = ?, status = ?
+        tanggal_pemeriksaan = ?, jam_pemeriksaan = ?, nik = ?, alamat = ?,
+        daerah_endemis_malaria = ?, rdt_malaria_result = ?, nama_anak = ?,
+        gender = ?, umur_tahun = ?, umur_bulan = ?, berat_badan = ?, pb_tb = ?,
+        lila = ?, lingkar_kepala = ?, suhu = ?, keluhan_utama = ?,
+        kunjungan_pertama = ?, kunjungan_ulang = ?, answers = ?, 
+        classification = ?, status = ?
        WHERE id = ?`,
       [
         tanggal_pemeriksaan,
         jam_pemeriksaan,
-        nama_anak,
-        umur || null,
-        berat_badan ?? null,
-        tinggi_badan ?? null,
+        nik || null,
+        alamat || null,
+        daerah_endemis_malaria || null,
+        rdt_malaria_result || null,
+        nama_anak || null,
         gender || null,
+        umur_tahun ?? null,
+        umur_bulan ?? null,
+        berat_badan ?? null,
+        pb_tb ?? null,
+        lila ?? null,
+        lingkar_kepala ?? null,
+        suhu ?? null,
         keluhan_utama || null,
+        kunjungan_pertama || null,
+        kunjungan_ulang || null,
         answers || "{}",
         classification || null,
         status || null,

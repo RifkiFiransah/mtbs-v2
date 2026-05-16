@@ -1,7 +1,6 @@
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -9,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ResultCard } from "../../components/ResultCard";
 import { ScreenHeader } from "../../components/ScreenHeader";
 import { TindakanItem } from "../../components/TindakanItem";
@@ -60,12 +60,22 @@ const getStatusFromClassification = (
 
 // Fungsi helper untuk menyimpan hasil SAGA ke database
 const saveSagaRecord = async (
+  nik: string,
+  alamat: string,
+  endemisYa: boolean,
+  rdtMalaria: string,
   nama: string,
-  umur: string,
-  berat: string,
-  tinggi: string,
   gender: string,
+  umurTahun: string,
+  umurBulan: string,
+  berat: string,
+  pbTb: string,
+  lila: string,
+  lingkarKepala: string,
+  suhu: string,
   keluhan: string,
+  kunjunganPertama: string,
+  kunjunganUlang: string,
   answers: Record<number, boolean>,
 ) => {
   try {
@@ -80,12 +90,22 @@ const saveSagaRecord = async (
       undefined, // child_id (opsional)
       tanggalStr,
       jamStr,
+      nik,
+      alamat,
+      endemisYa ? "YA" : "TIDAK",
+      rdtMalaria,
       nama,
-      umur,
-      parseFloat(berat) || undefined,
-      parseFloat(tinggi) || undefined,
       gender,
+      umurTahun ? parseInt(umurTahun) : undefined,
+      umurBulan ? parseInt(umurBulan) : undefined,
+      berat ? parseFloat(berat) : undefined,
+      pbTb ? parseFloat(pbTb) : undefined,
+      lila ? parseFloat(lila) : undefined,
+      lingkarKepala ? parseFloat(lingkarKepala) : undefined,
+      suhu ? parseFloat(suhu) : undefined,
       keluhan,
+      kunjunganPertama,
+      kunjunganUlang,
       JSON.stringify(answers),
       classification,
       status,
@@ -101,31 +121,76 @@ const saveSagaRecord = async (
 
 // Data for SAGA Questions
 const SAGA_QUESTIONS = [
-  { id: 1, category: "PENAMPILAN", text: "Apakah anak kejang?" },
-  { id: 2, category: "PENAMPILAN", text: "Apakah anak tidak sadar?" },
-  { id: 3, category: "PENAMPILAN", text: "Apakah anak gelisah terus?" },
-  { id: 4, category: "PENAMPILAN", text: "Apakah anak tidak merespon?" },
-  { id: 5, category: "PENAMPILAN", text: "Apakah anak mata cekung?" },
+  { id: 1, category: "TANYAKAN", text: "Apakah anak bisa minum atau menyusu?" },
+  {
+    id: 2,
+    category: "TANYAKAN",
+    text: "Apakah anak memuntahkan semua makanan dan minuman?",
+  },
+  {
+    id: 3,
+    category: "TANYAKAN",
+    text: "Apakah anak pernah kejang selama sakit ini?",
+  },
+  {
+    id: 4,
+    category: "TENTUKAN PENAMPILAN",
+    text: "Apakah anak kejang?",
+  },
+  {
+    id: 5,
+    category: "TENTUKAN PENAMPILAN",
+    text: "Apakah anak tidak dapat berinteraksi dengan lingkungan atau tidak sadar",
+  },
   {
     id: 6,
-    category: "PENAMPILAN",
-    text: "Apakah anak tidak mau minum/menyusu?",
+    category: "TENTUKAN PENAMPILAN",
+    text: "Apakah anak gelisah, rewel, dan tidak dapat ditenangkan?",
   },
-  { id: 7, category: "PENAMPILAN", text: "Apakah anak tidak mau makan?" },
-  { id: 8, category: "PENAMPILAN", text: "Apakah anak tampak sangat lemah?" },
-  { id: 9, category: "USAHA NAPAS", text: "Apakah ada tarikan dinding dada?" },
-  { id: 10, category: "USAHA NAPAS", text: "Apakah napas cuping hidung?" },
-  { id: 11, category: "USAHA NAPAS", text: "Apakah ada stridor?" },
-  { id: 12, category: "USAHA NAPAS", text: "Apakah posisi sulit bernapas?" },
-  { id: 13, category: "USAHA NAPAS", text: "Apakah napas sangat cepat?" },
-  { id: 14, category: "SIRKULASI", text: "Apakah anak tampak pucat?" },
-  { id: 15, category: "SIRKULASI", text: "Apakah bibir/kulit kebiruan?" },
-  { id: 16, category: "SIRKULASI", text: "Apakah kulit seperti marmer?" },
-  { id: 17, category: "SIRKULASI", text: "Apakah CRT memanjang?" },
   {
-    id: 18,
-    category: "SIRKULASI",
-    text: "Apakah nadi sangat lemah/tidak teraba?",
+    id: 7,
+    category: "TENTUKAN PENAMPILAN",
+    text: "Apakah anak mempunyai pandangan kosong atau mata tidak membuka?",
+  },
+  {
+    id: 8,
+    category: "TENTUKAN PENAMPILAN",
+    text: "Apakah anak tidak bersuara atau justru menangis melengking?",
+  },
+  {
+    id: 9,
+    category: "TENTUKAN USAHA NAPAS",
+    text: "Apakah terdapat tarikan dinding dada ke dalam?",
+  },
+  {
+    id: 10,
+    category: "TENTUKAN USAHA NAPAS",
+    text: "Apakah terdengar stridor (suara ngorok)?",
+  },
+  {
+    id: 11,
+    category: "TENTUKAN USAHA NAPAS",
+    text: "Apakah terdapat napas cuping hidung?",
+  },
+  {
+    id: 12,
+    category: "TENTUKAN USAHA NAPAS",
+    text: "Apakah anak mencari posisi paling nyaman dan menolak berbaring?",
+  },
+  {
+    id: 13,
+    category: "TENTUKAN SIRKULASI",
+    text: "Apakah anak tampak pucat?",
+  },
+  {
+    id: 14,
+    category: "TENTUKAN SIRKULASI",
+    text: "Apakah tampak warna biru pada kulit, bibir, kuku, dan membran mukosa (sianosis)?",
+  },
+  {
+    id: 15,
+    category: "TENTUKAN SIRKULASI",
+    text: "Apakah tampak gambaran kutis marmorata atau kulit seperti marmer?",
   },
 ];
 
@@ -133,12 +198,26 @@ export const SagaScreen = ({ navigation }: any) => {
   const [step, setStep] = useState(0); // 0 = Data Anak, 1-18 = Questions, 19 = Hasil, 20 = Tindakan
 
   // Form State
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [tanggal, setTanggal] = useState(
+    new Date().toISOString().split("T")[0],
+  );
+  const [nik, setNik] = useState("");
+  const [alamat, setAlamat] = useState("");
+  const [endemisYa, setEndemisYa] = useState(false);
+  const [rdtMalaria, setRdtMalaria] = useState("");
   const [nama, setNama] = useState("");
-  const [umur, setUmur] = useState("");
-  const [berat, setBerat] = useState("");
-  const [tinggi, setTinggi] = useState("");
   const [gender, setGender] = useState("Laki-laki");
+  const [umurTahun, setUmurTahun] = useState("");
+  const [umurBulan, setUmurBulan] = useState("");
+  const [berat, setBerat] = useState("");
+  const [pbTb, setPbTb] = useState("");
+  const [lila, setLila] = useState("");
+  const [lingkarKepala, setLingkarKepala] = useState("");
+  const [suhu, setSuhu] = useState("");
   const [keluhan, setKeluhan] = useState("");
+  const [kunjunganPertama, setKunjunganPertama] = useState("");
+  const [kunjunganUlang, setKunjunganUlang] = useState("");
 
   const [answers, setAnswers] = useState<Record<number, boolean>>({});
 
@@ -162,6 +241,98 @@ export const SagaScreen = ({ navigation }: any) => {
 
   const renderDataAnak = () => (
     <ScrollView style={styles.content}>
+      <Text style={styles.label}>Tanggal Kunjungan</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="YYYY-MM-DD"
+        value={tanggal}
+        editable={false}
+      />
+
+      <Text style={styles.label}>NIK</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Masukkan NIK"
+        keyboardType="numeric"
+        value={nik}
+        onChangeText={setNik}
+      />
+
+      <Text style={styles.label}>Alamat</Text>
+      <TextInput
+        style={[styles.input, { minHeight: 80 }]}
+        placeholder="Masukkan alamat lengkap"
+        value={alamat}
+        onChangeText={setAlamat}
+        multiline
+      />
+
+      <Text style={styles.label}>Daerah Endemis Malaria</Text>
+      <View style={styles.radioGroup}>
+        <TouchableOpacity
+          style={styles.radioBtn}
+          onPress={() => setEndemisYa(true)}
+        >
+          <MaterialIcons
+            name={endemisYa ? "radio-button-checked" : "radio-button-unchecked"}
+            size={24}
+            color="#1E3A8A"
+          />
+          <Text style={styles.radioText}>YA</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.radioBtn}
+          onPress={() => setEndemisYa(false)}
+        >
+          <MaterialIcons
+            name={
+              !endemisYa ? "radio-button-checked" : "radio-button-unchecked"
+            }
+            size={24}
+            color="#1E3A8A"
+          />
+          <Text style={styles.radioText}>TIDAK</Text>
+        </TouchableOpacity>
+      </View>
+
+      {endemisYa && (
+        <>
+          <Text style={styles.label}>Jika YA, RDT Malaria</Text>
+          <View style={styles.radioGroup}>
+            <TouchableOpacity
+              style={styles.radioBtn}
+              onPress={() => setRdtMalaria("(+)")}
+            >
+              <MaterialIcons
+                name={
+                  rdtMalaria === "(+)"
+                    ? "radio-button-checked"
+                    : "radio-button-unchecked"
+                }
+                size={24}
+                color="#1E3A8A"
+              />
+              <Text style={styles.radioText}>(+)</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.radioBtn}
+              onPress={() => setRdtMalaria("(-)")}
+            >
+              <MaterialIcons
+                name={
+                  rdtMalaria === "(-)"
+                    ? "radio-button-checked"
+                    : "radio-button-unchecked"
+                }
+                size={24}
+                color="#1E3A8A"
+              />
+              <Text style={styles.radioText}>(-)</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
+
       <Text style={styles.label}>Nama Anak</Text>
       <TextInput
         style={styles.input}
@@ -169,42 +340,6 @@ export const SagaScreen = ({ navigation }: any) => {
         value={nama}
         onChangeText={setNama}
       />
-
-      <Text style={styles.label}>Umur</Text>
-      <View style={styles.rowInput}>
-        <TextInput
-          style={[styles.input, { flex: 1 }]}
-          placeholder="0"
-          keyboardType="numeric"
-          value={umur}
-          onChangeText={setUmur}
-        />
-        <Text style={styles.unitText}>tahun</Text>
-      </View>
-
-      <Text style={styles.label}>Berat Badan</Text>
-      <View style={styles.rowInput}>
-        <TextInput
-          style={[styles.input, { flex: 1 }]}
-          placeholder="0"
-          keyboardType="numeric"
-          value={berat}
-          onChangeText={setBerat}
-        />
-        <Text style={styles.unitText}>kg</Text>
-      </View>
-
-      <Text style={styles.label}>Tinggi Badan</Text>
-      <View style={styles.rowInput}>
-        <TextInput
-          style={[styles.input, { flex: 1 }]}
-          placeholder="0"
-          keyboardType="numeric"
-          value={tinggi}
-          onChangeText={setTinggi}
-        />
-        <Text style={styles.unitText}>cm</Text>
-      </View>
 
       <Text style={styles.label}>Jenis Kelamin</Text>
       <View style={styles.radioGroup}>
@@ -240,13 +375,168 @@ export const SagaScreen = ({ navigation }: any) => {
         </TouchableOpacity>
       </View>
 
+      <Text style={styles.label}>Umur</Text>
+      <View style={styles.rowInput}>
+        <TextInput
+          style={[styles.input, { flex: 1, marginRight: 12, marginBottom: 10 }]}
+          placeholder="0"
+          keyboardType="numeric"
+          value={umurTahun}
+          onChangeText={setUmurTahun}
+        />
+        <Text style={styles.unitText}>Tahun</Text>
+      </View>
+      <View style={styles.rowInput}>
+        <TextInput
+          style={[styles.input, { flex: 1, marginRight: 12 }]}
+          placeholder="0"
+          keyboardType="numeric"
+          value={umurBulan}
+          onChangeText={setUmurBulan}
+        />
+        <Text style={styles.unitText}>Bulan</Text>
+      </View>
+
+      <Text style={styles.label}>Berat Badan</Text>
+      <View style={styles.rowInput}>
+        <TextInput
+          style={[styles.input, { flex: 1 }]}
+          placeholder="0"
+          keyboardType="decimal-pad"
+          value={berat}
+          onChangeText={setBerat}
+        />
+        <Text style={styles.unitText}>Kg</Text>
+      </View>
+
+      <Text style={styles.label}>PB/TB</Text>
+      <View style={styles.rowInput}>
+        <TextInput
+          style={[styles.input, { flex: 1 }]}
+          placeholder="0"
+          keyboardType="decimal-pad"
+          value={pbTb}
+          onChangeText={setPbTb}
+        />
+        <Text style={styles.unitText}>Cm</Text>
+      </View>
+
+      {parseInt(umurBulan || "0") >= 6 || parseInt(umurTahun || "0") >= 1 ? (
+        <>
+          <Text style={styles.label}>LILA</Text>
+          <View style={styles.rowInput}>
+            <TextInput
+              style={[styles.input, { flex: 1 }]}
+              placeholder="0"
+              keyboardType="decimal-pad"
+              value={lila}
+              onChangeText={setLila}
+            />
+            <Text style={styles.unitText}>Cm</Text>
+          </View>
+        </>
+      ) : null}
+
+      <Text style={styles.label}>Lingkar Kepala</Text>
+      <View style={styles.rowInput}>
+        <TextInput
+          style={[styles.input, { flex: 1 }]}
+          placeholder="0"
+          keyboardType="decimal-pad"
+          value={lingkarKepala}
+          onChangeText={setLingkarKepala}
+        />
+        <Text style={styles.unitText}>Cm</Text>
+      </View>
+
+      <Text style={styles.label}>Suhu</Text>
+      <View style={styles.rowInput}>
+        <TextInput
+          style={[styles.input, { flex: 1 }]}
+          placeholder="0"
+          keyboardType="decimal-pad"
+          value={suhu}
+          onChangeText={setSuhu}
+        />
+        <Text style={styles.unitText}>°C</Text>
+      </View>
+
       <Text style={styles.label}>Keluhan Utama</Text>
       <TextInput
-        style={styles.input}
-        placeholder="Batuk dan demam"
+        style={[styles.input, { minHeight: 80 }]}
+        placeholder="Masukkan keluhan utama"
         value={keluhan}
         onChangeText={setKeluhan}
+        multiline
       />
+
+      <Text style={styles.label}>Kunjungan Pertama</Text>
+      <View style={styles.radioGroup}>
+        <TouchableOpacity
+          style={styles.radioBtn}
+          onPress={() => setKunjunganPertama("YA")}
+        >
+          <MaterialIcons
+            name={
+              kunjunganPertama === "YA"
+                ? "radio-button-checked"
+                : "radio-button-unchecked"
+            }
+            size={24}
+            color="#1E3A8A"
+          />
+          <Text style={styles.radioText}>YA</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.radioBtn}
+          onPress={() => setKunjunganPertama("TIDAK")}
+        >
+          <MaterialIcons
+            name={
+              kunjunganPertama === "TIDAK"
+                ? "radio-button-checked"
+                : "radio-button-unchecked"
+            }
+            size={24}
+            color="#1E3A8A"
+          />
+          <Text style={styles.radioText}>TIDAK</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Text style={styles.label}>Kunjungan Ulang</Text>
+      <View style={styles.radioGroup}>
+        <TouchableOpacity
+          style={styles.radioBtn}
+          onPress={() => setKunjunganUlang("YA")}
+        >
+          <MaterialIcons
+            name={
+              kunjunganUlang === "YA"
+                ? "radio-button-checked"
+                : "radio-button-unchecked"
+            }
+            size={24}
+            color="#1E3A8A"
+          />
+          <Text style={styles.radioText}>YA</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.radioBtn}
+          onPress={() => setKunjunganUlang("TIDAK")}
+        >
+          <MaterialIcons
+            name={
+              kunjunganUlang === "TIDAK"
+                ? "radio-button-checked"
+                : "radio-button-unchecked"
+            }
+            size={24}
+            color="#1E3A8A"
+          />
+          <Text style={styles.radioText}>TIDAK</Text>
+        </TouchableOpacity>
+      </View>
 
       <TouchableOpacity style={styles.primaryButton} onPress={handleNext}>
         <Text style={styles.primaryButtonText}>LANJUT PEMERIKSAAN</Text>
@@ -258,7 +548,7 @@ export const SagaScreen = ({ navigation }: any) => {
     const qIndex = step - 1;
     const question = SAGA_QUESTIONS[qIndex];
     const isAnswered = answers[step] !== undefined;
-    const totalQuestions = 18; // Total dari PENAMPILAN (8) + USAHA NAPAS (5) + SIRKULASI (5)
+    const totalQuestions = 15; // Total dari TANYAKAN(3) + PENAMPILAN (5) + USAHA NAPAS (4) + SIRKULASI (3)
 
     return (
       <View style={styles.questionContainer}>
@@ -405,12 +695,22 @@ export const SagaScreen = ({ navigation }: any) => {
       } else {
         // Jika STABIL, simpan record dan kembali
         await saveSagaRecord(
+          nik,
+          alamat,
+          endemisYa,
+          rdtMalaria,
           nama,
-          umur,
-          berat,
-          tinggi || "",
           gender,
+          umurTahun,
+          umurBulan,
+          berat,
+          pbTb,
+          lila,
+          lingkarKepala,
+          suhu,
           keluhan,
+          kunjunganPertama,
+          kunjunganUlang,
           answers,
         );
         // eslint-disable-next-line no-unused-expressions
@@ -509,12 +809,22 @@ export const SagaScreen = ({ navigation }: any) => {
           style={styles.secondaryButton}
           onPress={async () => {
             await saveSagaRecord(
+              nik,
+              alamat,
+              endemisYa,
+              rdtMalaria,
               nama,
-              umur,
-              berat,
-              tinggi || "",
               gender,
+              umurTahun,
+              umurBulan,
+              berat,
+              pbTb,
+              lila,
+              lingkarKepala,
+              suhu,
               keluhan,
+              kunjunganPertama,
+              kunjunganUlang,
               answers,
             );
             // eslint-disable-next-line no-unused-expressions
@@ -543,7 +853,7 @@ export const SagaScreen = ({ navigation }: any) => {
       />
 
       {step === 0 && renderDataAnak()}
-      {step >= 1 && step <= 18 && renderQuestion()}
+      {step >= 1 && step <= 15 && renderQuestion()}
       {step === 19 && renderHasil()}
       {step === 20 && renderTindakan()}
     </SafeAreaView>
@@ -606,8 +916,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 16,
     alignItems: "center",
-    marginTop: 40,
-    marginBottom: 30,
+    marginTop: 30,
+    marginBottom: 65,
   },
   primaryButtonText: {
     color: "#fff",

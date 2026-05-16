@@ -55,9 +55,7 @@ const createGrowthDataFromRecords = (records: SagaRecord[]) => {
   const beratData = sortedRecords
     .map((record) => record.berat_badan || 0)
     .reverse();
-  const tinggiData = sortedRecords
-    .map((record) => record.tinggi_badan || 0)
-    .reverse();
+  const tinggiData = sortedRecords.map((record) => record.pb_tb || 0).reverse();
 
   return {
     labels: labels.reverse(),
@@ -192,7 +190,9 @@ export const RiwayatPemeriksaanScreen = ({ navigation }: any) => {
           <MaterialIcons name="child-care" size={24} color="#6B7280" />
           <View style={{ marginLeft: 12 }}>
             <Text style={styles.childName}>{item.nama_anak}</Text>
-            <Text style={styles.childAge}>{item.umur}</Text>
+            <Text style={styles.childAge}>
+              {item.umur_tahun} tahun, {item.umur_bulan} bulan
+            </Text>
           </View>
         </View>
       </View>

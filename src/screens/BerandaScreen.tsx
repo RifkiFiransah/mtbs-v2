@@ -36,8 +36,8 @@ export const BerandaScreen = ({ navigation }: BerandaScreenProps) => {
       paddingTop: 45,
     },
     logo: {
-      width: 90,
-      height: 90,
+      width: 125,
+      height: 125,
       resizeMode: "contain",
     },
     headerContent: {
