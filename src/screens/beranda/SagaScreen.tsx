@@ -1,4 +1,4 @@
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
   ScrollView,
@@ -11,31 +11,48 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ResultCard } from "../../components/ResultCard";
 import { ScreenHeader } from "../../components/ScreenHeader";
-import { TindakanItem } from "../../components/TindakanItem";
 import { addSagaRecord } from "../../database/db";
+
+import { GagalJantungParu } from "./klasifikasi/GagalJantungParu";
+import { PenyakitSangatBerat } from "./klasifikasi/PenyakitSangatBerat";
+import { Stabil } from "./klasifikasi/Stabil";
 
 // const { width } = Dimensions.get("window");
 
 // Kategori soal SAGA
-const PENAMPILAN_QUESTIONS = [1, 2, 3, 4, 5, 6, 7, 8];
-const USAHA_NAPAS_QUESTIONS = [9, 10, 11, 12, 13];
-const SIRKULASI_QUESTIONS = [14, 15, 16, 17, 18];
+const QUESTIONS = [1, 2, 3]; // TANYAKAN
+const PENAMPILAN_QUESTIONS = [4, 5, 6, 7, 8]; // PENAMPILAN
+const USAHA_NAPAS_QUESTIONS = [9, 10, 11, 12]; // USAHA NAPAS
+const SIRKULASI_QUESTIONS = [13, 14, 15]; // SIRKULASI
 
 // Fungsi untuk menghitung klasifikasi berdasarkan jawaban
 const calculateClassification = (answers: Record<number, boolean>) => {
   // Hitung jawaban "YA" di setiap kategori
+  const questionYa = QUESTIONS.some((q) => answers[q] === true);
   const penampilanYa = PENAMPILAN_QUESTIONS.some((q) => answers[q] === true);
   const usahaNapasYa = USAHA_NAPAS_QUESTIONS.some((q) => answers[q] === true);
   const sirkulasiYa = SIRKULASI_QUESTIONS.some((q) => answers[q] === true);
 
-  // Jika tidak ada jawaban "YA" = STABIL
-  if (!penampilanYa && !usahaNapasYa && !sirkulasiYa) {
+  // STABIL
+  // Tidak terdapat salah satu gejala/tanda diatas
+  if (!penampilanYa && !usahaNapasYa && !sirkulasiYa && !questionYa) {
     return "STABIL";
   }
 
-  // Jika ada jawaban "YA" di semua 3 kategori = GAGAL JANTUNG PARU (Critical)
+  // GAGAL JANTUNG PARU
+  // Terdapat satu atau lebih gejala/tanda pada setiap komponen penampilan dan komponen usaha napas dan sirkulasi
   if (penampilanYa && usahaNapasYa && sirkulasiYa) {
     return "GAGAL_JANTUNG_PARU";
+  }
+
+  // PENYAKIT SANGAT BERAT
+  // Terdapat satu atau lebih tanda berikut:
+  // - Tidak bisa minum atau menyusu
+  // - Memuntahkan semua makanan dan minuman
+  // - Pernah kejang selama  sakit ini
+  // - Ditemukan satu atau lebih gejala/tanda pada komponen penampilan ATAU usaha napas ATAU sirkulasi
+  if (questionYa || penampilanYa || usahaNapasYa || sirkulasiYa) {
+    return "PENYAKIT_SANGAT_BERAT";
   }
 
   // Jika ada jawaban "YA" tapi tidak di semua kategori = PENYAKIT SANGAT BERAT
@@ -195,7 +212,7 @@ const SAGA_QUESTIONS = [
 ];
 
 export const SagaScreen = ({ navigation }: any) => {
-  const [step, setStep] = useState(0); // 0 = Data Anak, 1-18 = Questions, 19 = Hasil, 20 = Tindakan
+  const [step, setStep] = useState(0); // 0 = Data Anak, 1-15 = Questions, 16 = Hasil, 17 = Tindakan
 
   // Form State
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -226,7 +243,7 @@ export const SagaScreen = ({ navigation }: any) => {
   };
 
   const handleNext = () => {
-    if (step < 20) setStep(step + 1);
+    if (step < 17) setStep(step + 1);
   };
 
   const handleBack = () => {
@@ -237,6 +254,46 @@ export const SagaScreen = ({ navigation }: any) => {
         navigation.goBack();
       }
     }
+  };
+
+  const isFormValid = () => {
+    // 1. Validasi dasar (Wajib diisi oleh semua kondisi, NIK opsional untuk balita)
+    if (
+      !alamat ||
+      !nama ||
+      !gender ||
+      !berat ||
+      !pbTb ||
+      !lingkarKepala ||
+      !suhu ||
+      !keluhan
+    ) {
+      return false;
+    }
+
+    // Validasi umur (Minimal salah satu antara tahun atau bulan terisi dan tidak kosong)
+    if (!umurTahun && !umurBulan) {
+      return false;
+    }
+
+    // 2. Validasi dinamis: Jika Endemis Malaria "YA", maka RDT Malaria wajib diisi
+    if (endemisYa && !rdtMalaria) {
+      return false;
+    }
+
+    // 3. Validasi dinamis: Jika umur >= 6 bulan atau >= 1 tahun, LILA wajib diisi
+    const bln = parseInt(umurBulan || "0", 10);
+    const thn = parseInt(umurTahun || "0", 10);
+    if ((bln >= 6 || thn >= 1) && !lila) {
+      return false;
+    }
+
+    // 4. Validasi pilihan kunjungan (Pastikan minimal salah satu sudah dipilih)
+    if (!kunjunganPertama && !kunjunganUlang) {
+      return false;
+    }
+
+    return true;
   };
 
   const renderDataAnak = () => (
@@ -253,9 +310,14 @@ export const SagaScreen = ({ navigation }: any) => {
       <TextInput
         style={styles.input}
         placeholder="Masukkan NIK"
+        maxLength={16}
         keyboardType="numeric"
         value={nik}
-        onChangeText={setNik}
+        onChangeText={(text) => {
+          // Menghapus karakter selain angka 0-9
+          const filteredText = text.replace(/[^0-9]/g, "");
+          setNik(filteredText);
+        }}
       />
 
       <Text style={styles.label}>Alamat</Text>
@@ -381,8 +443,17 @@ export const SagaScreen = ({ navigation }: any) => {
           style={[styles.input, { flex: 1, marginRight: 12, marginBottom: 10 }]}
           placeholder="0"
           keyboardType="numeric"
+          maxLength={1} // Cukup 1 digit karena maksimal angka 5
           value={umurTahun}
-          onChangeText={setUmurTahun}
+          onChangeText={(text) => {
+            const filteredText = text.replace(/[^0-9]/g, "");
+            const num = parseInt(filteredText, 10);
+
+            // Hanya terima jika kosong (saat dihapus) atau angka berada di antara 1 dan 5
+            if (filteredText === "" || (num >= 1 && num <= 5)) {
+              setUmurTahun(filteredText);
+            }
+          }}
         />
         <Text style={styles.unitText}>Tahun</Text>
       </View>
@@ -392,7 +463,16 @@ export const SagaScreen = ({ navigation }: any) => {
           placeholder="0"
           keyboardType="numeric"
           value={umurBulan}
-          onChangeText={setUmurBulan}
+          maxLength={2} // Maksimal 2 digit untuk angka 12
+          onChangeText={(text) => {
+            const filteredText = text.replace(/[^0-9]/g, "");
+            const num = parseInt(filteredText, 10);
+
+            // Hanya terima jika kosong (saat dihapus) atau angka berada di antara 1 dan 12
+            if (filteredText === "" || (num >= 1 && num <= 12)) {
+              setUmurBulan(filteredText);
+            }
+          }}
         />
         <Text style={styles.unitText}>Bulan</Text>
       </View>
@@ -404,7 +484,16 @@ export const SagaScreen = ({ navigation }: any) => {
           placeholder="0"
           keyboardType="decimal-pad"
           value={berat}
-          onChangeText={setBerat}
+          maxLength={2} // Maksimal 2 digit untuk angka 30
+          onChangeText={(text) => {
+            const filteredText = text.replace(/[^0-9]/g, "");
+            const num = parseInt(filteredText, 10);
+
+            // Hanya terima jika kosong (saat dihapus) atau angka berada di antara 1 dan 30
+            if (filteredText === "" || (num >= 1 && num <= 30)) {
+              setBerat(filteredText);
+            }
+          }}
         />
         <Text style={styles.unitText}>Kg</Text>
       </View>
@@ -456,7 +545,16 @@ export const SagaScreen = ({ navigation }: any) => {
           placeholder="0"
           keyboardType="decimal-pad"
           value={suhu}
-          onChangeText={setSuhu}
+          maxLength={2} // Maksimal 2 digit untuk angka 40
+          onChangeText={(text) => {
+            const filteredText = text.replace(/[^0-9]/g, "");
+            const num = parseInt(filteredText, 10);
+
+            // Hanya terima jika kosong (saat dihapus) atau angka berada di antara 1 dan 40
+            if (filteredText === "" || (num >= 1 && num <= 40)) {
+              setSuhu(filteredText);
+            }
+          }}
         />
         <Text style={styles.unitText}>°C</Text>
       </View>
@@ -538,7 +636,15 @@ export const SagaScreen = ({ navigation }: any) => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.primaryButton} onPress={handleNext}>
+      <TouchableOpacity
+        // style={styles.primaryButton}
+        style={[
+          styles.primaryButton,
+          !isFormValid() && styles.disabledButton, // Berikan style abu-abu jika disabled
+        ]}
+        onPress={handleNext}
+        disabled={!isFormValid()} // Mengunci tombol secara fungsional
+      >
         <Text style={styles.primaryButtonText}>LANJUT PEMERIKSAAN</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -649,8 +755,11 @@ export const SagaScreen = ({ navigation }: any) => {
             title: "STABIL",
             description:
               "Tidak terdapat salah satu gejala/tanda di atas.\n\nTidak perlu tindakan khusus. Lanjutkan perawatan sesuai keluhan.",
-            isDanger: false,
             iconName: "check-circle" as const,
+            // Menggunakan warna tema Hijau
+            backgroundColor: "#10B981",
+            borderColor: "#10B981",
+            buttonColor: "#10B981",
             buttonText: "SELESAI",
             showTindakan: false,
           };
@@ -659,8 +768,11 @@ export const SagaScreen = ({ navigation }: any) => {
             title: "PENYAKIT SANGAT BERAT",
             description:
               "Terdapat satu atau lebih tanda berikut:\n• Tidak bisa minum/menyusu\n• Memuntahkan semua makanan/minuman\n• Pernapasan kejang selama sakit ini\n• Diembalkan satu/lebih gejala pada penampilan ATAU usaha napas ATAU sirkulasi",
-            isDanger: true,
-            iconName: "warning" as const,
+            iconName: "error" as const, // Lingkaran tanda seru putih
+            // Menggunakan warna tema Orange
+            backgroundColor: "#F59E0B",
+            borderColor: "#F59E0B",
+            buttonColor: "#F59E0B",
             buttonText: "LIHAT DETAIL",
             showTindakan: true,
           };
@@ -669,8 +781,11 @@ export const SagaScreen = ({ navigation }: any) => {
             title: "GAGAL JANTUNG PARU",
             description:
               "Terdapat satu atau lebih gejala/tanda pada setiap komponen penampilan serta setiap komponen sirkulasi.",
-            isDanger: true,
-            iconName: "warning" as const,
+            iconName: "dangerous" as const, // Tanda silang bahaya putih
+            // Menggunakan warna tema Merah
+            backgroundColor: "#EF4444",
+            borderColor: "#EF4444",
+            buttonColor: "#EF4444",
             buttonText: "SOS DARURAT",
             showTindakan: true,
           };
@@ -678,8 +793,10 @@ export const SagaScreen = ({ navigation }: any) => {
           return {
             title: "STABIL",
             description: "",
-            isDanger: false,
             iconName: "check-circle" as const,
+            backgroundColor: "#10B981",
+            borderColor: "#10B981",
+            buttonColor: "#10B981",
             buttonText: "SELESAI",
             showTindakan: false,
           };
@@ -690,10 +807,8 @@ export const SagaScreen = ({ navigation }: any) => {
 
     const handleFinishOrContinue = async () => {
       if (classificationData.showTindakan) {
-        // Jika ada tindakan, lanjut ke step 20 (Tindakan)
-        setStep(20);
+        setStep(17);
       } else {
-        // Jika STABIL, simpan record dan kembali
         await saveSagaRecord(
           nik,
           alamat,
@@ -713,33 +828,31 @@ export const SagaScreen = ({ navigation }: any) => {
           kunjunganUlang,
           answers,
         );
-        // eslint-disable-next-line no-unused-expressions
-        navigation?.navigate ? navigation.navigate("MainTabs") : null;
+        if (navigation && typeof navigation.replace === "function") {
+          navigation.replace("MainTabs");
+        }
       }
     };
 
     return (
       <ScrollView style={styles.content}>
+        {/* Melemparkan props yang sesuai dengan kebutuhan komponen ResultCard Anda */}
         <ResultCard
           title={classificationData.title}
           description={classificationData.description}
-          isDanger={classificationData.isDanger}
           iconName={classificationData.iconName}
+          backgroundColor={classificationData.backgroundColor}
+          borderColor={classificationData.borderColor}
         />
 
         <TouchableOpacity
           style={[
             styles.primaryButton,
-            classification === "GAGAL_JANTUNG_PARU" && styles.sosButton,
+            { backgroundColor: classificationData.buttonColor }, // Warna tombol mengikuti tema case
           ]}
           onPress={handleFinishOrContinue}
         >
-          <Text
-            style={[
-              styles.primaryButtonText,
-              classification === "GAGAL_JANTUNG_PARU" && { color: "#fff" },
-            ]}
-          >
+          <Text style={[styles.primaryButtonText, { color: "#fff" }]}>
             {classificationData.buttonText}
           </Text>
         </TouchableOpacity>
@@ -749,92 +862,38 @@ export const SagaScreen = ({ navigation }: any) => {
 
   const renderTindakan = () => {
     const classification = calculateClassification(answers);
-    const isCritical = classification === "GAGAL_JANTUNG_PARU";
 
-    return (
-      <ScrollView style={styles.content}>
-        <Text style={styles.tindakanRedTitle}>TINDAKAN SEGERA</Text>
+    const handleSaveAndGoBack = async () => {
+      await saveSagaRecord(
+        nik,
+        alamat,
+        endemisYa,
+        rdtMalaria,
+        nama,
+        gender,
+        umurTahun,
+        umurBulan,
+        berat,
+        pbTb,
+        lila,
+        lingkarKepala,
+        suhu,
+        keluhan,
+        kunjunganPertama,
+        kunjunganUlang,
+        answers,
+      );
+      // eslint-disable-next-line no-unused-expressions
+      navigation?.replace ? navigation.replace("MainTabs") : null;
+    };
 
-        {isCritical ? (
-          // Tindakan untuk GAGAL JANTUNG PARU (Critical)
-          <>
-            <TindakanItem
-              iconName="medkit-outline"
-              text="Lakukan Bantuan Hidup Dasar (BHD)"
-            />
-            <TindakanItem iconName="medical" text="Rujuk segera" />
-            <TindakanItem
-              iconName="git-network-outline"
-              text="Berikan oksigen"
-            />
-            <TindakanItem iconName="call" text="Hubungi ambulans" />
-
-            <TouchableOpacity style={styles.sosButton}>
-              <Ionicons
-                name="call"
-                size={24}
-                color="#fff"
-                style={{ marginRight: 8 }}
-              />
-              <Text style={styles.sosButtonText}>SOS DARURAT</Text>
-            </TouchableOpacity>
-          </>
-        ) : (
-          // Tindakan untuk PENYAKIT SANGAT BERAT
-          <>
-            <TindakanItem iconName="medical" text="Rujuk segera" />
-            <TindakanItem
-              iconName="git-network-outline"
-              text="Berikan oksigen bila tersedia"
-            />
-            <TindakanItem iconName="medkit-outline" text="Cegah hipoglikemia" />
-            <TindakanItem
-              iconName="thermometer-outline"
-              text="Jaga kehangatan tubuh"
-            />
-
-            <TouchableOpacity style={styles.sosButton}>
-              <Ionicons
-                name="call"
-                size={24}
-                color="#fff"
-                style={{ marginRight: 8 }}
-              />
-              <Text style={styles.sosButtonText}>HUBUNGI IGD</Text>
-            </TouchableOpacity>
-          </>
-        )}
-
-        <TouchableOpacity
-          style={styles.secondaryButton}
-          onPress={async () => {
-            await saveSagaRecord(
-              nik,
-              alamat,
-              endemisYa,
-              rdtMalaria,
-              nama,
-              gender,
-              umurTahun,
-              umurBulan,
-              berat,
-              pbTb,
-              lila,
-              lingkarKepala,
-              suhu,
-              keluhan,
-              kunjunganPertama,
-              kunjunganUlang,
-              answers,
-            );
-            // eslint-disable-next-line no-unused-expressions
-            navigation?.navigate ? navigation.navigate("MainTabs") : null;
-          }}
-        >
-          <Text style={styles.secondaryButtonText}>KEMBALI KE BERANDA</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    );
+    if (classification === "GAGAL_JANTUNG_PARU") {
+      return <GagalJantungParu onBack={handleSaveAndGoBack} />;
+    } else if (classification === "PENYAKIT_SANGAT_BERAT") {
+      return <PenyakitSangatBerat onBack={handleSaveAndGoBack} />;
+    } else {
+      return <Stabil onBack={handleSaveAndGoBack} />;
+    }
   };
 
   return (
@@ -843,9 +902,9 @@ export const SagaScreen = ({ navigation }: any) => {
         title={
           step === 0
             ? "Data Anak"
-            : step <= 18
+            : step <= 15
               ? "Pemeriksaan SAGA"
-              : step === 19
+              : step === 16
                 ? "Hasil Klasifikasi"
                 : "Tindakan & Rujukan"
         }
@@ -854,8 +913,8 @@ export const SagaScreen = ({ navigation }: any) => {
 
       {step === 0 && renderDataAnak()}
       {step >= 1 && step <= 15 && renderQuestion()}
-      {step === 19 && renderHasil()}
-      {step === 20 && renderTindakan()}
+      {step === 16 && renderHasil()}
+      {step === 17 && renderTindakan()}
     </SafeAreaView>
   );
 };
@@ -863,6 +922,10 @@ export const SagaScreen = ({ navigation }: any) => {
 export default SagaScreen;
 
 const styles = StyleSheet.create({
+  disabledButton: {
+    backgroundColor: "#A0AEC0", // Warna abu-abu (Cool Gray)
+    opacity: 0.7,
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",

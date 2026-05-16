@@ -2,13 +2,13 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import {
   FlatList,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ScreenHeader } from "../../components/ScreenHeader";
 
 const MENU_ITEMS = [
@@ -36,13 +36,6 @@ const MENU_ITEMS = [
     icon: "home",
     screen: "PenangananAwal",
   },
-  {
-    id: 5,
-    title: "Penyakit Anak yang Sering Terjadi",
-    icon: "psychology",
-    screen: "PenyakitAnak",
-  },
-  { id: 6, title: "Video Edukasi", icon: "videocam", screen: "VideoEdukasi" },
   { id: 7, title: "FAQ (Tanya Jawab)", icon: "help-center", screen: "FAQ" },
   { id: 8, title: "Kuis Edukasi", icon: "quiz", screen: "KuisEdukasi" },
   {

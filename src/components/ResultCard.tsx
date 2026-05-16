@@ -5,18 +5,20 @@ import { StyleSheet, Text, View } from "react-native";
 interface ResultCardProps {
   title: string;
   description: string;
-  isDanger: boolean;
-  iconName: "warning" | "check-circle";
+  iconName: "check-circle" | "warning" | "error" | "dangerous";
+  backgroundColor: string; // Sudah benar menerima string warna dari luar
+  borderColor: string; // Sudah benar menerima string warna dari luar
 }
 
 export const ResultCard = ({
   title,
   description,
-  isDanger,
   iconName,
+  backgroundColor, // Ambil props warna dari SagaScreen
+  borderColor, // Ambil props warna dari SagaScreen
 }: ResultCardProps) => {
-  const borderColor = isDanger ? "#DC2626" : "#10B981";
-  const backgroundColor = isDanger ? "#DC2626" : "#10B981";
+  // Catatan: Logika isDanger lama dihapus dari sini agar warna kartu
+  // bisa mengikuti warna dinamis (Hijau/Orange/Merah) yang dikirim dari SagaScreen
 
   return (
     <View style={[styles.resultCard, { borderColor }]}>

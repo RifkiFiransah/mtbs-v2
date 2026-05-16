@@ -1,7 +1,8 @@
 import * as SQLite from "expo-sqlite";
 
 // Membuka atau membuat database baru
-const db = SQLite.openDatabaseSync("mtbspintar_v2.db");
+const db = SQLite.openDatabaseSync("mtbspintar.db");
+
 export const initDB = async () => {
   try {
     await db.withExclusiveTransactionAsync(async (txn) => {
@@ -60,16 +61,6 @@ export const initDB = async () => {
           FOREIGN KEY (child_id) REFERENCES children(id)
         );
       `);
-
-      // TAMBAHKAN BLOK INI: Migrasi darurat untuk menyisipkan kolom NIK ke database yang terlanjur ada
-      try {
-        await txn.execAsync(`ALTER TABLE saga_records ADD COLUMN nik TEXT;`);
-        console.log("🚀 Kolom nik berhasil ditambahkan ke tabel lama.");
-      } catch (e) {
-        // Jika kolom sudah ada (pada HP user lain atau setelah reset), query ALTER TABLE akan error.
-        // Kita tangkap errornya di sini agar program tidak crash.
-        console.log("ℹ️ Kolom nik sudah tersedia, melewati migrasi.", e);
-      }
 
       // Seeding profil ibu jika belum ada
       const existingMotherCount = await txn.getFirstAsync<{ count: number }>(
@@ -188,10 +179,9 @@ export const initDB = async () => {
             tanggal_pemeriksaan: date1Str,
             jam_pemeriksaan: "08:45",
             nama_anak: "Muhammad Zaki",
-            umur_tahun: 1,
-            umur_bulan: 8,
+            umur: "1 tahun 8 bulan",
             berat_badan: 13.5,
-            pb_tb: 88.0,
+            tinggi_badan: 88.0,
             gender: "Laki-laki",
             keluhan_utama: "Kejang dan kesulitan bernapas",
             answers: answers1,
@@ -203,10 +193,9 @@ export const initDB = async () => {
             tanggal_pemeriksaan: date2Str,
             jam_pemeriksaan: "10:15",
             nama_anak: "Muhammad Zaki",
-            umur_tahun: 1,
-            umur_bulan: 8,
+            umur: "1 tahun 8 bulan",
             berat_badan: 13.6,
-            pb_tb: 88.5,
+            tinggi_badan: 88.5,
             gender: "Laki-laki",
             keluhan_utama: "Demam ringan",
             answers: answers2,
@@ -218,10 +207,9 @@ export const initDB = async () => {
             tanggal_pemeriksaan: date3Str,
             jam_pemeriksaan: "09:30",
             nama_anak: "Muhammad Zaki",
-            umur_tahun: 1,
-            umur_bulan: 8,
+            umur: "1 tahun 8 bulan",
             berat_badan: 13.7,
-            pb_tb: 89.0,
+            tinggi_badan: 89.0,
             gender: "Laki-laki",
             keluhan_utama: "Kejang, sesak napas, dan pucat",
             answers: answers3,
@@ -234,18 +222,17 @@ export const initDB = async () => {
           await txn.runAsync(
             `INSERT INTO saga_records (
               child_id, tanggal_pemeriksaan, jam_pemeriksaan, nama_anak, 
-              umur_tahun, umur_bulan, berat_badan, pb_tb, gender, keluhan_utama, 
+              umur, berat_badan, tinggi_badan, gender, keluhan_utama, 
               answers, classification, status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
               record.child_id,
               record.tanggal_pemeriksaan,
               record.jam_pemeriksaan,
               record.nama_anak,
-              record.umur_tahun,
-              record.umur_bulan,
+              record.umur,
               record.berat_badan,
-              record.pb_tb,
+              record.tinggi_badan,
               record.gender,
               record.keluhan_utama,
               record.answers,
@@ -257,7 +244,7 @@ export const initDB = async () => {
       }
     });
 
-    console.log("✅ Database v2 berhasil diinisialisasi");
+    console.log("✅ Database berhasil diinisialisasi");
   } catch (error) {
     console.error("❌ Gagal menginisialisasi database:", error);
   }

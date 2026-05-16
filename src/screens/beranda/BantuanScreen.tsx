@@ -392,8 +392,8 @@ const styles = StyleSheet.create({
     padding: 16,
     flexDirection: "row",
     alignItems: "flex-start",
-    borderLeftWidth: 4,
-    borderLeftColor: "#0047AB",
+    // borderLeftWidth: 4,
+    // borderLeftColor: "#0047AB",
   },
   tipNumber: {
     width: 36,
@@ -418,6 +418,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#6B7280",
     marginTop: 4,
+    width: 300,
   },
   chartPlaceholder: {
     backgroundColor: "#EFF6FF",

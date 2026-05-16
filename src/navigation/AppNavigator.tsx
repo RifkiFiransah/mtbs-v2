@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Import Screens
 import { AboutMTBSScreen } from "../screens/AboutMTBSScreen";
-import { BantuanScreen } from "../screens/BantuanScreen";
+import { BantuanScreen } from "../screens/beranda/BantuanScreen";
 import { EdukasiScreen } from "../screens/beranda/EdukasiScreen";
 import { RiwayatPemeriksaanScreen } from "../screens/beranda/RiwayatPemeriksaanScreen";
 import { SagaScreen } from "../screens/beranda/SagaScreen";

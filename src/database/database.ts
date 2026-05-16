@@ -1,7 +1,8 @@
 import * as SQLite from "expo-sqlite";
 
-// Membuka atau membuat database baru
+// Menggunakan nama database baru (v2) agar memulai dari awal tanpa error skema lama
 const db = SQLite.openDatabaseSync("mtbspintar_v2.db");
+
 export const initDB = async () => {
   try {
     await db.withExclusiveTransactionAsync(async (txn) => {
@@ -60,16 +61,6 @@ export const initDB = async () => {
           FOREIGN KEY (child_id) REFERENCES children(id)
         );
       `);
-
-      // TAMBAHKAN BLOK INI: Migrasi darurat untuk menyisipkan kolom NIK ke database yang terlanjur ada
-      try {
-        await txn.execAsync(`ALTER TABLE saga_records ADD COLUMN nik TEXT;`);
-        console.log("🚀 Kolom nik berhasil ditambahkan ke tabel lama.");
-      } catch (e) {
-        // Jika kolom sudah ada (pada HP user lain atau setelah reset), query ALTER TABLE akan error.
-        // Kita tangkap errornya di sini agar program tidak crash.
-        console.log("ℹ️ Kolom nik sudah tersedia, melewati migrasi.", e);
-      }
 
       // Seeding profil ibu jika belum ada
       const existingMotherCount = await txn.getFirstAsync<{ count: number }>(

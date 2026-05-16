@@ -5,12 +5,17 @@ import { StyleSheet, Text, View } from "react-native";
 interface TindakanItemProps {
   iconName: keyof typeof Ionicons.glyphMap;
   text: string;
+  iconColor?: string;
 }
 
-export const TindakanItem = ({ iconName, text }: TindakanItemProps) => {
+export const TindakanItem = ({
+  iconName,
+  text,
+  iconColor,
+}: TindakanItemProps) => {
   return (
     <View style={styles.tindakanItem}>
-      <Ionicons name={iconName} size={24} color="#DC2626" />
+      <Ionicons name={iconName} size={24} color={iconColor || "#DC2626"} />
       <Text style={styles.tindakanText}>{text}</Text>
     </View>
   );

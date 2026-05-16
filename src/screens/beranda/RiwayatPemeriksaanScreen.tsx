@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import {
   Dimensions,
   FlatList,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,6 +11,7 @@ import {
   View,
 } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ScreenHeader } from "../../components/ScreenHeader";
 import { getSagaRecords, SagaRecord } from "../../database/db";
 

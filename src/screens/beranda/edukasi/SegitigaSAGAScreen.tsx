@@ -1,28 +1,34 @@
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ScreenHeader } from "../../../components/ScreenHeader";
 export const SegitigaSAGAScreen = ({ navigation }: any) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation?.goBack()}>
-          <Ionicons name="chevron-back" size={28} color="#111" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Segitiga SAGA</Text>
-        <View style={{ width: 28 }} />
-      </View>
+      <ScreenHeader
+        title="Segitiga SAGA"
+        onBackPress={() => navigation?.goBack()}
+      />
 
       <ScrollView style={styles.content}>
         <View style={styles.headerBanner}>
           <Text style={styles.headerBannerText}>2. SEGITIGA SAGA</Text>
+        </View>
+
+        <View style={styles.headerSection}>
+          <View style={styles.headerIcon}>
+            {/* <MaterialIcons name="school" size={60} color="#0047AB" /> */}
+            <Image
+              source={require("../../../../assets/images/logos/fixsaga.png")}
+              style={{ width: 200, height: 200 }}
+              resizeMode="contain"
+            ></Image>
+          </View>
+          {/* <Text style={styles.headerText}>Menu Edukasi MTBS Pintar (SAGA)</Text>
+          <Text style={styles.headerSubtext}>
+            Materi edukasi untuk orang tua dan tenaga kesehatan
+          </Text> */}
         </View>
 
         <View style={styles.contentBox}>
@@ -145,6 +151,30 @@ export const SegitigaSAGAScreen = ({ navigation }: any) => {
 export default SegitigaSAGAScreen;
 
 const styles = StyleSheet.create({
+  headerSection: {
+    backgroundColor: "#EFF6FF",
+    paddingVertical: 0,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  headerIcon: {
+    marginBottom: 12,
+  },
+  headerText: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: "#0047AB",
+    textAlign: "center",
+  },
+  headerSubtext: {
+    fontSize: 13,
+    color: "#6B7280",
+    marginTop: 8,
+    textAlign: "center",
+  },
+  // ... (styles remain unchanged)
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -167,7 +197,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0047AB",
     paddingVertical: 12,
     paddingHorizontal: 20,
-    marginBottom: 16,
+    marginBottom: 10,
   },
   headerBannerText: {
     fontSize: 16,
