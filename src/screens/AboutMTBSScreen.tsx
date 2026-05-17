@@ -14,6 +14,20 @@ interface AboutMTBSScreenProps {
 
 export const AboutMTBSScreen = ({ navigation }: AboutMTBSScreenProps) => {
   const styles = StyleSheet.create({
+    subtitle: {
+      fontSize: 18,
+      fontWeight: "bold",
+      color: "#333",
+      marginBottom: 8,
+      marginTop: 8,
+    },
+    description: {
+      fontSize: 14,
+      color: "#444",
+      lineHeight: 22,
+      marginBottom: 12,
+    },
+
     safeArea: {
       flex: 1,
     },
@@ -63,6 +77,7 @@ export const AboutMTBSScreen = ({ navigation }: AboutMTBSScreenProps) => {
       paddingBottom: 40,
       justifyContent: "center",
       zIndex: 1,
+      marginBottom: 30,
     },
     noteCard: {
       // backgroundColor: "#FFFFFF",
@@ -161,9 +176,48 @@ export const AboutMTBSScreen = ({ navigation }: AboutMTBSScreenProps) => {
     },
     footer: {
       paddingHorizontal: 20,
-      marginBottom: 80,
+      marginBottom: 70,
       gap: 12,
       justifyContent: "center",
+    },
+    profileCard: {
+      backgroundColor: "#EFF6FF",
+      borderRadius: 16,
+      padding: 16,
+      marginTop: 20,
+      alignItems: "center",
+      borderWidth: 1,
+      borderColor: "#BFDBFE",
+    },
+    profileTitle: {
+      fontSize: 16,
+      fontWeight: "700",
+      color: "#1E3A8A",
+      marginBottom: 8,
+    },
+    profileDivider: {
+      width: 40,
+      height: 3,
+      backgroundColor: "#3B82F6",
+      borderRadius: 2,
+      marginBottom: 12,
+    },
+    profileName: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: "#1E40AF",
+      marginBottom: 2,
+    },
+    profileId: {
+      fontSize: 14,
+      color: "#475569",
+      marginBottom: 6,
+    },
+    profileUniv: {
+      fontSize: 14,
+      fontWeight: "600",
+      color: "#0F172A",
+      textAlign: "center",
     },
     backButton: {
       backgroundColor: "#FFFFFF",
@@ -272,6 +326,16 @@ export const AboutMTBSScreen = ({ navigation }: AboutMTBSScreenProps) => {
                 <Text style={styles.bulletDot}>•</Text>
                 Mendukung penanganan yang cepat dan tepat
               </Text>
+
+              <View style={styles.profileCard}>
+                <Text style={styles.profileTitle}>Profil Pemilik</Text>
+                <View style={styles.profileDivider} />
+                <Text style={styles.profileName}>Devi Amalia Darojatun</Text>
+                <Text style={styles.profileId}>(CKR0220092)</Text>
+                <Text style={styles.profileUniv}>
+                  Universitas Bakti Husada Indonesia
+                </Text>
+              </View>
             </View>
           </View>
         </View>

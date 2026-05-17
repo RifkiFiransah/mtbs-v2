@@ -36,20 +36,20 @@ const MENU_ITEMS = [
     icon: "home",
     screen: "PenangananAwal",
   },
-  { id: 7, title: "FAQ (Tanya Jawab)", icon: "help-center", screen: "FAQ" },
-  { id: 8, title: "Kuis Edukasi", icon: "quiz", screen: "KuisEdukasi" },
-  {
-    id: 9,
-    title: "Poster & Infografis",
-    icon: "image",
-    screen: "PosterInfografis",
-  },
-  {
-    id: 10,
-    title: "Pencegahan Penyakit",
-    icon: "verified",
-    screen: "PencegahanPenyakit",
-  },
+  // { id: 7, title: "FAQ (Tanya Jawab)", icon: "help-center", screen: "FAQ" },
+  // { id: 8, title: "Kuis Edukasi", icon: "quiz", screen: "KuisEdukasi" },
+  // {
+  //   id: 9,
+  //   title: "Poster & Infografis",
+  //   icon: "image",
+  //   screen: "PosterInfografis",
+  // },
+  // {
+  //   id: 10,
+  //   title: "Pencegahan Penyakit",
+  //   icon: "verified",
+  //   screen: "PencegahanPenyakit",
+  // },
 ];
 
 const COLORS = [
@@ -78,36 +78,57 @@ const ICON_COLORS = [
 ];
 
 export const EdukasiScreen = ({ navigation }: any) => {
-  const renderMenuCard = ({ item, index }: any) => (
-    <TouchableOpacity
-      style={[
-        styles.menuCard,
-        { backgroundColor: COLORS[index % COLORS.length] },
-      ]}
-      onPress={() => navigation.navigate(item.screen)}
-    >
-      <View
-        style={[
-          styles.iconContainer,
-          { backgroundColor: ICON_COLORS[index % ICON_COLORS.length] + "20" },
-        ]}
+  const renderMenuCard = ({ item, index }: any) => {
+    // Kita gunakan data yang sama, hanya layouting yang diubah total
+    const cardBgColor = COLORS[index % COLORS.length];
+    const accentColor = ICON_COLORS[index % ICON_COLORS.length];
+
+    return (
+      <TouchableOpacity
+        style={[styles.menuCard, { backgroundColor: cardBgColor }]}
+        activeOpacity={0.7}
+        onPress={() => navigation.navigate(item.screen)}
       >
-        <MaterialIcons
-          name={item.icon as any}
-          size={32}
-          color={ICON_COLORS[index % ICON_COLORS.length]}
-        />
-      </View>
-      <Text style={styles.menuCardTitle}>{item.id}.</Text>
-      <Text style={styles.menuCardSubtitle}>{item.title}</Text>
-      <Ionicons
-        name="arrow-forward"
-        size={20}
-        color={ICON_COLORS[index % ICON_COLORS.length]}
-        style={styles.arrowIcon}
-      />
-    </TouchableOpacity>
-  );
+        {/* 1. Ikon Container (Paling menonjol di atas) */}
+        <View
+          style={[
+            styles.iconContainer,
+            { backgroundColor: accentColor + "15" },
+          ]}
+        >
+          <MaterialIcons
+            name={item.icon as any}
+            size={40} // Ikon diperbesar agar jelas
+            color={accentColor}
+          />
+        </View>
+
+        {/* 2. Judul Utama (Hierarki visual tertinggi) */}
+        <Text style={styles.menuCardSubtitle} numberOfLines={2}>
+          {item.title}
+        </Text>
+
+        {/* 3. Container Bawah (ID & Detail menyatu) */}
+        <View style={styles.cardFooter}>
+          {/* Angka ID (Kini lebih halus, tidak lagi bold 800) */}
+          {/* <Text style={styles.menuCardTitle}>{item.id}.</Text> */}
+
+          {/* Aksi Detail (Tombol visual yang lebih baik) */}
+          <View style={styles.detailButton}>
+            <Text style={[styles.detailText, { color: accentColor }]}>
+              Detail
+            </Text>
+            <Ionicons
+              name="chevron-forward" // Gunakan chevron agar lebih modern
+              size={14}
+              color={accentColor}
+              style={{ marginLeft: 2 }}
+            />
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -192,44 +213,73 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   gridContainer: {
-    paddingHorizontal: 12,
-    paddingVertical: 20,
+    paddingHorizontal: 16, // Padding diperbesar agar layout bernapas
+    paddingVertical: 12,
   },
   columnWrapper: {
     justifyContent: "space-between",
-    marginBottom: 12,
+    marginBottom: 16, // Jarak vertikal diperlebar
   },
   menuCard: {
     width: "48%",
-    borderRadius: 16,
-    padding: 16,
+    aspectRatio: 0.9, // Kartu sedikit lebih tinggi dan seragam
+    borderRadius: 24, // Sudut jauh lebih membulat (lebih bersahabat)
+    padding: 20, // Padding internal diperbesar
     alignItems: "center",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    justifyContent: "space-between", // Sebar elemen ke atas, tengah, bawah
+
+    // Shadow & Elevation yang jauh lebih halus
+    elevation: 4,
+    shadowColor: "#1E3A8A", // Shadow sedikit kebiruan agar keren
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.06, // Sangat pudar agar tidak terlihat kotor
+    shadowRadius: 16,
+
+    // Border tipis transparan (opsional, tapi keren)
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.5)",
   },
   iconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 72, // Ikon container diperbesar
+    height: 72,
+    borderRadius: 36, // Lingkaran sempurna
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 8,
   },
-  menuCardTitle: {
-    fontSize: 12,
-    fontWeight: "800",
-    color: "#1E3A8A",
-  },
+  // Judul Utama (Kini besar dan jelas)
   menuCardSubtitle: {
-    fontSize: 13,
-    fontWeight: "700",
+    fontSize: 16, // Ukuran teks diperbesar
+    fontWeight: "900", // Paling tebal untuk hierarki utama
     color: "#1E3A8A",
     textAlign: "center",
-    marginTop: 6,
-    lineHeight: 16,
+    marginTop: 0,
+    lineHeight: 20, // Spasi baris lega
+    flex: 1, // Judul mengambil ruang tengah
+  },
+  // Container Footer (ID & Detail)
+  cardFooter: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end", // ID di kiri, Detail di kanan
+    width: "100%",
+    marginTop: 10,
+  },
+  // ID (Kini lebih halus di pojok)
+  menuCardTitle: {
+    fontSize: 12,
+    fontWeight: "600", // Tidak bold 800 lagi, gunakan Semi-bold
+    color: "#1E3A8A",
+    opacity: 0.5, // Dibuat sedikit transparan agar tidak mengganggu judul
+  },
+  // Tombol Detail Terpadu
+  detailButton: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  detailText: {
+    fontSize: 12,
+    fontWeight: "800", // PENEGASAN pada aksi
   },
   arrowIcon: {
     position: "absolute",

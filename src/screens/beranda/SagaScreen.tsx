@@ -767,7 +767,7 @@ export const SagaScreen = ({ navigation }: any) => {
           return {
             title: "PENYAKIT SANGAT BERAT",
             description:
-              "Terdapat satu atau lebih tanda berikut:\n• Tidak bisa minum/menyusu\n• Memuntahkan semua makanan/minuman\n• Pernapasan kejang selama sakit ini\n• Diembalkan satu/lebih gejala pada penampilan ATAU usaha napas ATAU sirkulasi",
+              "Terdapat satu atau lebih tanda berikut:\n• Tidak bisa minum/menyusu\n• Memuntahkan semua makanan/minuman\n• Pernapasan kejang selama sakit ini\n• Ditemukan satu/lebih gejala pada penampilan ATAU usaha napas ATAU sirkulasi",
             iconName: "error" as const, // Lingkaran tanda seru putih
             // Menggunakan warna tema Orange
             backgroundColor: "#F59E0B",

@@ -1,13 +1,8 @@
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ScreenHeader } from "../../../components/ScreenHeader";
 
 export const PenangananAwalScreen = ({ navigation }: any) => {
   const tips = [
@@ -40,13 +35,10 @@ export const PenangananAwalScreen = ({ navigation }: any) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation?.goBack()}>
-          <Ionicons name="chevron-back" size={28} color="#111" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Penanganan Awal di Rumah</Text>
-        <View style={{ width: 28 }} />
-      </View>
+      <ScreenHeader
+        title="Penanganan Awal di Rumah"
+        onBackPress={() => navigation?.goBack()}
+      />
 
       <ScrollView style={styles.content}>
         <View style={styles.headerBanner}>
@@ -106,7 +98,7 @@ export const PenangananAwalScreen = ({ navigation }: any) => {
               "Menunda untuk ke rumah sakit saat ada tanda bahaya",
             ].map((item, idx) => (
               <View key={idx} style={styles.donotItem}>
-                <MaterialIcons name="close-circle" size={20} color="#DC2626" />
+                <MaterialIcons name="error-outline" size={20} color="#DC2626" />
                 <Text style={styles.donotText}>{item}</Text>
               </View>
             ))}

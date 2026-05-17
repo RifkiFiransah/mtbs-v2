@@ -37,6 +37,7 @@ const EMERGENCY_CONTACTS = [
 ];
 
 export const BantuanScreen = ({ navigation }: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showChart, setShowChart] = useState(false);
 
   const handleCall = (number: string) => {
@@ -200,7 +201,7 @@ export const BantuanScreen = ({ navigation }: any) => {
         </View>
 
         {/* Chart */}
-        <View style={styles.section}>
+        {/* <View style={styles.section}>
           <Text style={styles.sectionTitle}>Grafik Perkembangan Kesehatan</Text>
           <TouchableOpacity
             style={styles.chartPlaceholder}
@@ -218,7 +219,6 @@ export const BantuanScreen = ({ navigation }: any) => {
                 Tren Kesehatan 30 Hari Terakhir
               </Text>
               <View style={styles.chart}>
-                {/* Simple bar chart visualization */}
                 {[65, 75, 70, 85, 80, 90, 85].map((value, idx) => (
                   <View key={idx} style={styles.chartBar}>
                     <View
@@ -237,7 +237,7 @@ export const BantuanScreen = ({ navigation }: any) => {
               </Text>
             </View>
           )}
-        </View>
+        </View> */}
 
         {/* SOS Button */}
         <TouchableOpacity

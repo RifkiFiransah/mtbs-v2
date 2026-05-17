@@ -1,12 +1,6 @@
+import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScreenHeader } from "../../../components/ScreenHeader";
 
@@ -14,91 +8,9 @@ interface TandaBahayaScreenProps {
   navigation: any;
 }
 
-interface WarningSignItem {
-  id: string;
-  title: string;
-  description: string;
-  image: any;
-  screen: string;
-}
-
 export const TandaBahayaUmumScreen = ({
   navigation,
 }: TandaBahayaScreenProps) => {
-  const warningSignsData: WarningSignItem[] = [
-    {
-      id: "tidak-bisa-minum",
-      title: "Tidak bisa minum \n atau menyusu",
-      description:
-        "Anak tidak dapat minum atau menyusu dengan normal atau kesulitan menelan.",
-      // image: require("../../assets/images/icons/tidak-bisa-minum.png"),
-      image: require("../../../../assets/images/icons/tidak-bisa-minum.png"),
-      screen: "TidakBisaMinum",
-    },
-    {
-      id: "muntah",
-      title: "Muntah terus - menerus",
-      description:
-        "Anak muntah berkali-kali dan tidak dapat menahan makanan atau minuman.",
-      image: require("../../../../assets/images/icons/muntah.png"),
-      screen: "Muntah",
-    },
-    {
-      id: "kejang",
-      title: "Kejang",
-      description:
-        "Anak mengalami kejang atau gerakan tubuh yang tidak terkontrol.",
-      image: require("../../../../assets/images/icons/kejang.png"),
-      screen: "Kejang",
-    },
-    {
-      id: "penurunan",
-      title: "Penampilan Anak Berubah / Penurunan Kesadaran",
-      description:
-        "Anak terlihat sakit berat, kesadaran menurun, atau tidak responsif.",
-      image: require("../../../../assets/images/icons/penurunan.png"),
-      screen: "PenurunanKesadaran",
-    },
-    {
-      id: "sesak",
-      title: "Sesak nafas atau nafas cepat",
-      description:
-        "Anak mengalami kesulitan bernapas, napas cepat, atau terengah-engah.",
-      image: require("../../../../assets/images/icons/sesak.png"),
-      screen: "SesakNafas",
-    },
-    {
-      id: "saga",
-      title: "Penilaian SAGA",
-      description:
-        "Evaluasi komprehensif untuk menentukan kondisi kesehatan anak secara menyeluruh.",
-      image: require("../../../../assets/images/icons/saga.png"),
-      screen: "PenilaianSAGA",
-    },
-  ];
-
-  const WarningCard = ({ item }: { item: WarningSignItem }) => {
-    const handlePress = () => {
-      navigation.navigate(item.screen);
-    };
-
-    return (
-      <TouchableOpacity
-        style={styles.warningCard}
-        onPress={handlePress}
-        activeOpacity={0.7}
-      >
-        <View style={styles.cardImageContainer}>
-          <Image source={item.image} style={styles.cardImage} />
-        </View>
-        <View style={styles.cardContent}>
-          <Text style={styles.cardTitle}>{item.title}</Text>
-          <Text style={styles.cardDescription}>{item.description}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <ScreenHeader
@@ -127,12 +39,10 @@ export const TandaBahayaUmumScreen = ({
               menjadi penyakit berat atau gawat darurat jika tidak ditangani
               segera.
             </Text>
-          </View>
 
-          {/* <Text style={styles.sectionTitle}>
-            Mengapa harus segera ditangani?
-          </Text>
-          <View style={styles.bulletList}>
+            <Text style={styles.sectionTitle}>
+              Mengapa harus segera ditangani?
+            </Text>
             <View style={styles.bulletItem}>
               <Text style={styles.bullet}>•</Text>
               <Text style={styles.bulletText}>
@@ -149,11 +59,15 @@ export const TandaBahayaUmumScreen = ({
               <Text style={styles.bullet}>•</Text>
               <Text style={styles.bulletText}>Dapat mengancam jiwa</Text>
             </View>
-          </View> */}
+          </View>
 
-          {warningSignsData.map((item) => (
-            <WarningCard key={item.id} item={item} />
-          ))}
+          <View style={styles.warningBox}>
+            <MaterialIcons name="info" size={24} color="#DC2626" />
+            <Text style={styles.warningText}>
+              Segera bawa anak kefasilitas kesehatan terdekat jika ditemukan
+              tanda bahaya.
+            </Text>
+          </View>
         </View>
 
         <View style={{ height: 40 }} />
@@ -270,7 +184,8 @@ const styles = StyleSheet.create({
   },
   bulletItem: {
     flexDirection: "row",
-    marginBottom: 8,
+    marginVertical: 8,
+    marginLeft: 16,
   },
   bullet: {
     fontSize: 14,
@@ -286,7 +201,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FEE2E2",
     borderRadius: 8,
     padding: 12,
-    marginTop: 16,
     flexDirection: "row",
     alignItems: "flex-start",
   },

@@ -36,14 +36,21 @@ export const TentangAplikasiScreen = ({
               dapat dilakukan lebih cepat dan tepat sasaran.
             </Text>
             <View style={styles.divider} />
-            <Text style={styles.subtitle}>Pemilik Aplikasi</Text>
+            <Text style={styles.subtitle}>Tentang Aplikasi</Text>
             <Text style={styles.description}>
-              Aplikasi ini dikembangkan oleh [Nama Pemilik / Institusi]. Kami
-              berdedikasi untuk terus meningkatkan kualitas kesehatan keluarga
-              Indonesia.
+              Aplikasi ini dikembangkan oleh Devi Amalia Darojatun (CKR0220092)
+              Universitas Bakti Husada Indonesia. Kami berdedikasi untuk terus
+              meningkatkan kualitas kesehatan keluarga Indonesia.
             </Text>
-            <Text style={styles.subtitle}>Hubungi Kami</Text>
-            <Text style={styles.description}>Email: kontak@mtbspintar.com</Text>
+            <View style={styles.profileCard}>
+              <Text style={styles.profileTitle}>Profil Pemilik</Text>
+              <View style={styles.profileDivider} />
+              <Text style={styles.profileName}>Devi Amalia Darojatun</Text>
+              <Text style={styles.profileId}>(CKR0220092)</Text>
+              <Text style={styles.profileUniv}>
+                Universitas Bakti Husada Indonesia
+              </Text>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -100,5 +107,44 @@ const styles = StyleSheet.create({
     color: "#444",
     lineHeight: 22,
     marginBottom: 12,
+  },
+  profileCard: {
+    backgroundColor: "#EFF6FF",
+    borderRadius: 16,
+    padding: 16,
+    marginTop: 10,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#BFDBFE",
+  },
+  profileTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#1E3A8A",
+    marginBottom: 8,
+  },
+  profileDivider: {
+    width: 40,
+    height: 3,
+    backgroundColor: "#3B82F6",
+    borderRadius: 2,
+    marginBottom: 12,
+  },
+  profileName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#1E40AF",
+    marginBottom: 2,
+  },
+  profileId: {
+    fontSize: 14,
+    color: "#475569",
+    marginBottom: 6,
+  },
+  profileUniv: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#0F172A",
+    textAlign: "center",
   },
 });

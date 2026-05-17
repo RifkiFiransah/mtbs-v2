@@ -1,13 +1,14 @@
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { ScreenHeader } from "../../../components/ScreenHeader";
 
 const FAQS = [
   {
@@ -57,13 +58,10 @@ export const FAQScreen = ({ navigation }: any) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation?.goBack()}>
-          <Ionicons name="chevron-back" size={28} color="#111" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>FAQ (Tanya Jawab)</Text>
-        <View style={{ width: 28 }} />
-      </View>
+      <ScreenHeader
+        title="FAQ (Tanya Jawab)"
+        onBackPress={() => navigation?.goBack()}
+      />
 
       <ScrollView style={styles.content}>
         <View style={styles.headerBanner}>

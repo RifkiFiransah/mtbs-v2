@@ -36,10 +36,14 @@ export const PenyakitSangatBerat = ({ onBack }: PenyakitSangatBeratProps) => {
           </View>
           <Text style={styles.cardDesc}>Beri diazepam segera</Text>
           <Image
-            source={require("../../../../assets/images/klasifikasi/Diazepam.png")}
+            source={require("../../../../assets/images/klasifikasi/penyakitberat1.png")}
             style={styles.image}
             resizeMode="contain"
-            // defaultSource={null}
+          />
+          <Image
+            source={require("../../../../assets/images/klasifikasi/penyakitberat2.png")}
+            style={styles.image1}
+            resizeMode="contain"
           />
         </View>
 
@@ -175,9 +179,13 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 160,
+    height: 150,
     borderRadius: 8,
-    backgroundColor: "#F3F4F6",
+  },
+  image1: {
+    width: "100%",
+    height: 100,
+    borderRadius: 8,
   },
   alertCard: {
     backgroundColor: "#FEF2F2",

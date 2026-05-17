@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
+import * as FileSystem from "expo-file-system/legacy";
 import * as ImagePicker from "expo-image-picker";
 import React, { useEffect, useState } from "react";
 import {
@@ -42,6 +43,27 @@ export const ProfilScreen = ({ navigation }: ProfilScreenProps) => {
   const [childAge, setChildAge] = useState("");
   const [childGender, setChildGender] = useState("");
   const [childFotoUri, setChildFotoUri] = useState<string | null>(null);
+
+  const saveImageToUploads = async (uri: string) => {
+    try {
+      const uploadDir = `${FileSystem.documentDirectory}uploads/`;
+      const dirInfo = await FileSystem.getInfoAsync(uploadDir);
+      if (!dirInfo.exists) {
+        await FileSystem.makeDirectoryAsync(uploadDir, { intermediates: true });
+      }
+      const fileName = `photo_${Date.now()}.jpg`;
+      const newUri = uploadDir + fileName;
+
+      await FileSystem.copyAsync({
+        from: uri,
+        to: newUri,
+      });
+      return newUri;
+    } catch (error) {
+      console.error("Error saving image:", error);
+      return uri;
+    }
+  };
 
   const loadData = async () => {
     const mothers = await getMothers();
@@ -126,7 +148,8 @@ export const ProfilScreen = ({ navigation }: ProfilScreenProps) => {
     });
 
     if (!result.canceled) {
-      setMotherFotoUri(result.assets[0].uri);
+      const savedUri = await saveImageToUploads(result.assets[0].uri);
+      setMotherFotoUri(savedUri);
     }
   };
 
@@ -138,7 +161,8 @@ export const ProfilScreen = ({ navigation }: ProfilScreenProps) => {
     });
 
     if (!result.canceled) {
-      setChildFotoUri(result.assets[0].uri);
+      const savedUri = await saveImageToUploads(result.assets[0].uri);
+      setChildFotoUri(savedUri);
     }
   };
 
