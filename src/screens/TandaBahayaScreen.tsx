@@ -69,7 +69,7 @@ export const TandaBahayaScreen = ({ navigation }: TandaBahayaScreenProps) => {
       title: "Penilaian SAGA",
       description:
         "Evaluasi komprehensif untuk menentukan kondisi kesehatan anak secara menyeluruh.",
-      image: require("../../assets/images/icons/saga.png"),
+      image: require("../../assets/images/icons/saga.jpg"),
       screen: "PenilaianSAGA",
     },
   ];

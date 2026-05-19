@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // Import Screens
 import { AboutMTBSScreen } from "../screens/AboutMTBSScreen";
 import { BantuanScreen } from "../screens/beranda/BantuanScreen";
+import { DetailRiwayatSagaScreen } from "../screens/beranda/DetailRiwayatSagaScreen";
 import { EdukasiScreen } from "../screens/beranda/EdukasiScreen";
 import { RiwayatPemeriksaanScreen } from "../screens/beranda/RiwayatPemeriksaanScreen";
 import { SagaScreen } from "../screens/beranda/SagaScreen";
@@ -231,6 +232,13 @@ export default function AppNavigator() {
           }}
         />
 
+        <Stack.Screen
+          name="DetailRiwayatSaga"
+          component={DetailRiwayatSagaScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name="RiwayatPemeriksaan"
           component={RiwayatPemeriksaanScreen}

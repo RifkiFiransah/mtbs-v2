@@ -82,9 +82,9 @@ const getStatusColor = (classification: string): string => {
     case "STABIL":
       return "#10B981"; // Green
     case "PENYAKIT_SANGAT_BERAT":
-      return "#DC2626"; // Red
+      return "#F59E0B"; // Kuning (Penyakit Berat)
     case "GAGAL_JANTUNG_PARU":
-      return "#DC2626"; // Red (Critical)
+      return "#DC2626"; // Red (Penyakit Paru)
     default:
       return "#6B7280"; // Gray
   }
@@ -111,6 +111,7 @@ export const RiwayatPemeriksaanScreen = ({ navigation }: any) => {
   const [stats, setStats] = useState({
     total: 0,
     penyakitBerat: 0,
+    penyakitParu: 0,
     stabil: 0,
   });
 
@@ -124,8 +125,12 @@ export const RiwayatPemeriksaanScreen = ({ navigation }: any) => {
       const total = records.length;
       const penyakitBerat = records.filter(
         (r) =>
-          r.classification === "PENYAKIT_SANGAT_BERAT" ||
-          r.classification === "GAGAL_JANTUNG_PARU",
+          // r.classification === "PENYAKIT_SANGAT_BERAT" ||
+          // r.classification === "GAGAL_JANTUNG_PARU",
+          r.classification === "PENYAKIT_SANGAT_BERAT",
+      ).length;
+      const penyakitParu = records.filter(
+        (r) => r.classification === "GAGAL_JANTUNG_PARU",
       ).length;
       const stabil = records.filter(
         (r) => r.classification === "STABIL",
@@ -134,6 +139,7 @@ export const RiwayatPemeriksaanScreen = ({ navigation }: any) => {
       setStats({
         total,
         penyakitBerat,
+        penyakitParu,
         stabil,
       });
 
@@ -199,7 +205,12 @@ export const RiwayatPemeriksaanScreen = ({ navigation }: any) => {
 
       {selectedItem === item.id.toString() && (
         <View style={styles.expandedContent}>
-          <TouchableOpacity style={styles.detailButton}>
+          <TouchableOpacity
+            style={styles.detailButton}
+            onPress={() =>
+              navigation.navigate("DetailRiwayatSaga", { id: item.id })
+            }
+          >
             <Text style={styles.detailButtonText}>Lihat Detail</Text>
             <MaterialIcons name="arrow-forward" size={16} color="#0047AB" />
           </TouchableOpacity>
@@ -222,17 +233,25 @@ export const RiwayatPemeriksaanScreen = ({ navigation }: any) => {
             <Text style={styles.statLabel}>Total Pemeriksaan</Text>
           </View>
           <View style={styles.statCard}>
-            <Text style={[styles.statNumber, { color: "#DC2626" }]}>
+            {/* Warna Kuning */}
+            <Text style={[styles.statNumber, { color: "#F59E0B" }]}>
               {stats.penyakitBerat}
             </Text>
             <Text style={styles.statLabel}>Penyakit Berat</Text>
           </View>
           <View style={styles.statCard}>
+            {/* Warna merah */}
+            <Text style={[styles.statNumber, { color: "#DC2626" }]}>
+              {stats.penyakitParu}
+            </Text>
+            <Text style={styles.statLabel}>Gagal Jantung Paru</Text>
+          </View>
+          {/* <View style={styles.statCard}>
             <Text style={[styles.statNumber, { color: "#10B981" }]}>
               {stats.stabil}
             </Text>
             <Text style={styles.statLabel}>Stabil</Text>
-          </View>
+          </View> */}
         </View>
 
         <View style={styles.chartContainer}>

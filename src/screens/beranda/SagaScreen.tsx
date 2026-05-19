@@ -484,13 +484,13 @@ export const SagaScreen = ({ navigation }: any) => {
           placeholder="0"
           keyboardType="decimal-pad"
           value={berat}
-          maxLength={2} // Maksimal 2 digit untuk angka 30
+          maxLength={3} // Maksimal 3 digit untuk angka 50
           onChangeText={(text) => {
             const filteredText = text.replace(/[^0-9]/g, "");
             const num = parseInt(filteredText, 10);
 
-            // Hanya terima jika kosong (saat dihapus) atau angka berada di antara 1 dan 30
-            if (filteredText === "" || (num >= 1 && num <= 30)) {
+            // Hanya terima jika kosong (saat dihapus) atau angka berada di antara 1 dan 50
+            if (filteredText === "" || (num >= 1 && num <= 50)) {
               setBerat(filteredText);
             }
           }}
@@ -550,8 +550,8 @@ export const SagaScreen = ({ navigation }: any) => {
             const filteredText = text.replace(/[^0-9]/g, "");
             const num = parseInt(filteredText, 10);
 
-            // Hanya terima jika kosong (saat dihapus) atau angka berada di antara 1 dan 40
-            if (filteredText === "" || (num >= 1 && num <= 40)) {
+            // Hanya terima jika kosong (saat dihapus) atau angka berada di antara 1 dan 50
+            if (filteredText === "" || (num >= 1 && num <= 50)) {
               setSuhu(filteredText);
             }
           }}
