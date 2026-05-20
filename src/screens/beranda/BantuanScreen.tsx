@@ -1,7 +1,6 @@
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  Alert,
   Linking,
   ScrollView,
   StyleSheet,
@@ -15,24 +14,27 @@ import { ScreenHeader } from "../../components/ScreenHeader";
 const EMERGENCY_CONTACTS = [
   {
     id: "1",
-    name: "Ambulans Darurat",
-    number: "119",
-    description: "Layanan ambulans dan gawat darurat",
-    icon: "local-shipping",
+    name: "Rumah Sakit Umum Daerah (RSUD) 45 Kuningan",
+    number: "(0232) 871885",
+    description:
+      "RSUD 45 Kuningan menyediakan layanan gawat darurat 24 jam untuk penanganan kasus anak.",
+    icon: "local-hospital",
   },
   {
     id: "2",
-    name: "Rumah Sakit Terdekat",
-    number: "(021) 1234-5678",
-    description: "RSUD Pusat Kesehatan Kota",
+    name: "Rumah Sakit Wijaya Kusumah",
+    number: "0851-4328-8398",
+    description:
+      "Rumah Sakit Wijaya Kusumah menyediakan layanan gawat darurat 24 jam.",
     icon: "local-hospital",
   },
   {
     id: "3",
-    name: "Hotline Kesehatan",
-    number: "1500567",
-    description: "Hotline Kementerian Kesehatan",
-    icon: "phone",
+    name: "Rumah Sakit Permata Kuningan",
+    number: "(0232) 8905556",
+    description:
+      "Rumah Sakit Permata Kuningan menyediakan layanan gawat darurat 24 jam.",
+    icon: "local-hospital",
   },
 ];
 
@@ -41,16 +43,7 @@ export const BantuanScreen = ({ navigation }: any) => {
   const [showChart, setShowChart] = useState(false);
 
   const handleCall = (number: string) => {
-    Alert.alert("Hubungi", `Panggil ${number}?`, [
-      {
-        text: "Batal",
-        style: "cancel",
-      },
-      {
-        text: "Hubungi",
-        onPress: () => Linking.openURL(`tel:${number}`),
-      },
-    ]);
+    Linking.openURL(`tel:${number}`);
   };
 
   return (
@@ -243,25 +236,17 @@ export const BantuanScreen = ({ navigation }: any) => {
         <TouchableOpacity
           style={styles.sosButton}
           onPress={() => {
-            Alert.alert(
-              "SOS",
-              "Aktifkan mode darurat dan hubungi kontak darurat?",
-              [
-                { text: "Batal", style: "cancel" },
-                {
-                  text: "Ya, Aktifkan",
-                  onPress: () =>
-                    Alert.alert(
-                      "Mode Darurat Aktif",
-                      "Kontak darurat telah dihubungi.",
-                    ),
-                },
-              ],
-            );
+            Linking.openURL("tel:119"); // Nomor Ambulans / Layanan Darurat 119
           }}
         >
           <Ionicons name="call" size={28} color="#fff" />
           <Text style={styles.sosButtonText}>SOS - DARURAT</Text>
+          <FontAwesome5
+            name="ambulance"
+            size={28}
+            color="#fff"
+            style={{ marginLeft: 12 }}
+          />
         </TouchableOpacity>
 
         <View style={{ height: 40 }} />

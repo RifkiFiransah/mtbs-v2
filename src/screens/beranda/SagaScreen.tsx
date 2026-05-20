@@ -484,13 +484,17 @@ export const SagaScreen = ({ navigation }: any) => {
           placeholder="0"
           keyboardType="decimal-pad"
           value={berat}
-          maxLength={3} // Maksimal 3 digit untuk angka 50
           onChangeText={(text) => {
-            const filteredText = text.replace(/[^0-9]/g, "");
-            const num = parseInt(filteredText, 10);
+            const filteredText = text.replace(/[^0-9.,]/g, "");
+            const num = parseFloat(filteredText.replace(",", "."));
 
-            // Hanya terima jika kosong (saat dihapus) atau angka berada di antara 1 dan 50
-            if (filteredText === "" || (num >= 1 && num <= 50)) {
+            // Hanya terima jika kosong, titik/koma awal, atau angka <= 50
+            if (
+              filteredText === "" ||
+              filteredText === "." ||
+              filteredText === "," ||
+              (!isNaN(num) && num >= 0 && num <= 100)
+            ) {
               setBerat(filteredText);
             }
           }}
@@ -505,7 +509,7 @@ export const SagaScreen = ({ navigation }: any) => {
           placeholder="0"
           keyboardType="decimal-pad"
           value={pbTb}
-          onChangeText={setPbTb}
+          onChangeText={(text) => setPbTb(text.replace(/[^0-9.,]/g, ""))}
         />
         <Text style={styles.unitText}>Cm</Text>
       </View>
@@ -519,7 +523,7 @@ export const SagaScreen = ({ navigation }: any) => {
               placeholder="0"
               keyboardType="decimal-pad"
               value={lila}
-              onChangeText={setLila}
+              onChangeText={(text) => setLila(text.replace(/[^0-9.,]/g, ""))}
             />
             <Text style={styles.unitText}>Cm</Text>
           </View>
@@ -533,7 +537,9 @@ export const SagaScreen = ({ navigation }: any) => {
           placeholder="0"
           keyboardType="decimal-pad"
           value={lingkarKepala}
-          onChangeText={setLingkarKepala}
+          onChangeText={(text) =>
+            setLingkarKepala(text.replace(/[^0-9.,]/g, ""))
+          }
         />
         <Text style={styles.unitText}>Cm</Text>
       </View>
@@ -545,13 +551,17 @@ export const SagaScreen = ({ navigation }: any) => {
           placeholder="0"
           keyboardType="decimal-pad"
           value={suhu}
-          maxLength={2} // Maksimal 2 digit untuk angka 40
           onChangeText={(text) => {
-            const filteredText = text.replace(/[^0-9]/g, "");
-            const num = parseInt(filteredText, 10);
+            const filteredText = text.replace(/[^0-9.,]/g, "");
+            const num = parseFloat(filteredText.replace(",", "."));
 
-            // Hanya terima jika kosong (saat dihapus) atau angka berada di antara 1 dan 50
-            if (filteredText === "" || (num >= 1 && num <= 50)) {
+            // Hanya terima jika kosong, titik/koma awal, atau angka <= 50
+            if (
+              filteredText === "" ||
+              filteredText === "." ||
+              filteredText === "," ||
+              (!isNaN(num) && num >= 0 && num <= 50)
+            ) {
               setSuhu(filteredText);
             }
           }}

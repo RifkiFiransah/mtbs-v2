@@ -340,6 +340,17 @@ export const KejangScreen = ({ navigation }: KejangScreenProps) => {
 
               {/* Perhatian */}
               <View style={styles.section}>
+                <Image
+                  source={require("../../../assets/images/illustrations/posisikejang.png")}
+                  style={{
+                    width: "100%",
+                    height: 250,
+                    resizeMode: "contain",
+                    marginBottom: 16,
+                  }}
+                />
+              </View>
+              <View style={styles.section}>
                 <View
                   style={{
                     flexDirection: "row",
@@ -367,15 +378,47 @@ export const KejangScreen = ({ navigation }: KejangScreenProps) => {
                 </View>
                 <View style={styles.actionBox}>
                   <View style={styles.bulletPoint}>
-                    <Text style={styles.bullet}>•</Text>
+                    <Text style={styles.bullet}>✅</Text>
                     <Text style={styles.bulletText}>
-                      Kejang biasanya berlangsung beberapa detik-menit
+                      Baringkan anak di tempat aman
                     </Text>
                   </View>
                   <View style={styles.bulletPoint}>
-                    <Text style={styles.bullet}>•</Text>
+                    <Text style={styles.bullet}>✅</Text>
                     <Text style={styles.bulletText}>
-                      Anak bisa tampak lemas atau mengantuk setelah kejang
+                      Miringkan kepala/tubuh
+                    </Text>
+                  </View>
+                  <View style={styles.bulletPoint}>
+                    <Text style={styles.bullet}>✅</Text>
+                    <Text style={styles.bulletText}>
+                      Miringkan kepala/tubuh
+                    </Text>
+                  </View>
+                  <View style={styles.bulletPoint}>
+                    <Text style={styles.bullet}>✅</Text>
+                    <Text style={styles.bulletText}>Longgarkan pakaian</Text>
+                  </View>
+                  <View style={styles.bulletPoint}>
+                    <Text style={styles.bullet}>✅</Text>
+                    <Text style={styles.bulletText}>Catat lama kejang</Text>
+                  </View>
+                  <View style={styles.bulletPoint}>
+                    <Text style={styles.bullet}>❌</Text>
+                    <Text style={styles.bulletText}>
+                      Jangan memasukkan benda ke mulut
+                    </Text>
+                  </View>
+                  <View style={styles.bulletPoint}>
+                    <Text style={styles.bullet}>❌</Text>
+                    <Text style={styles.bulletText}>
+                      Jangan menahan gerakan kejang
+                    </Text>
+                  </View>
+                  <View style={styles.bulletPoint}>
+                    <Text style={styles.bullet}>👉</Text>
+                    <Text style={styles.bulletText}>
+                      Segera ke fasilitas kesehatan
                     </Text>
                   </View>
                 </View>

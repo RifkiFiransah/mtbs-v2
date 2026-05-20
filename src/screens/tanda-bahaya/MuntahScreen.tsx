@@ -231,7 +231,9 @@ export const MuntahScreen = ({ navigation }: MuntahScreenProps) => {
                 </View>
                 <View style={styles.bulletPoint}>
                   <Text style={styles.bullet}>•</Text>
-                  <Text style={styles.bulletText}>Muntah berlangsung kali</Text>
+                  <Text style={styles.bulletText}>
+                    Muntah berlangsung berkali-kali
+                  </Text>
                 </View>
                 <View style={styles.bulletPoint}>
                   <Text style={styles.bullet}>•</Text>
