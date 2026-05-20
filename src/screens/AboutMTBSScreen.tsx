@@ -218,6 +218,7 @@ export const AboutMTBSScreen = ({ navigation }: AboutMTBSScreenProps) => {
       fontWeight: "600",
       color: "#0F172A",
       textAlign: "center",
+      marginTop: 10,
     },
     backButton: {
       backgroundColor: "#FFFFFF",
@@ -331,7 +332,16 @@ export const AboutMTBSScreen = ({ navigation }: AboutMTBSScreenProps) => {
                 <Text style={styles.profileTitle}>Profil Pemilik</Text>
                 <View style={styles.profileDivider} />
                 <Text style={styles.profileName}>Devi Amalia Darojatun</Text>
-                <Text style={styles.profileId}>(CKR0220092)</Text>
+                {/* <Text style={styles.profileId}>(CKR0220092)</Text> */}
+
+                <Text style={[styles.profileTitle, { marginTop: 16 }]}>
+                  Dosen Pembimbing
+                </Text>
+                <View style={styles.profileDivider} />
+                <Text style={[styles.profileName, { marginBottom: 4 }]}>
+                  1. Nanang Saprudin
+                </Text>
+                <Text style={styles.profileName}>2. Neneng Aria Nengsih</Text>
                 <Text style={styles.profileUniv}>
                   Universitas Bakti Husada Indonesia
                 </Text>
