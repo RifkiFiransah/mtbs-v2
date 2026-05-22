@@ -48,9 +48,9 @@ export const TentangAplikasiScreen = ({
               <Text style={styles.profileName}>Devi Amalia Darojatun</Text>
               {/* <Text style={styles.profileId}>(CKR0220092)</Text> */}
 
-              <Text style={[styles.profileTitle, { marginTop: 16 }]}>
+              {/* <Text style={[styles.profileTitle, { marginTop: 16 }]}>
                 Dosen Pembimbing
-              </Text>
+              </Text> */}
               <View style={styles.profileDivider} />
               <Text style={[styles.profileName, { marginBottom: 4 }]}>
                 1. Nanang Saprudin
