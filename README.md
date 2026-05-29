@@ -1,50 +1,70 @@
-# Welcome to your Expo app 👋
+# MTBS Pintar 🩺
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplikasi **MTBS Pintar** adalah aplikasi mobile berbasis React Native (Expo) yang ditujukan untuk membantu penilaian kondisi anak dan balita melalui pedoman **Manajemen Terpadu Balita Sakit (MTBS)** dan **Penilaian Segitiga SAGA (Pediatric Assessment Triangle)**.
 
-## Get started
+## ✨ Fitur Utama
 
-1. Install dependencies
+- **Penilaian Tanda Bahaya**: Deteksi dini kondisi kritis pada anak (Kejang, Muntah, Penurunan Kesadaran, Sesak Nafas, Tidak Bisa Minum).
+- **Penilaian SAGA**: Penilaian awal kegawatdaruratan anak menggunakan Segitiga SAGA dengan parameter Penampilan, Usaha Nafas, dan Sirkulasi Kulit.
+- **Edukasi Interaktif**: Menyediakan modul edukasi komprehensif terkait Tanda Bahaya Umum, Segitiga SAGA, Penyakit Anak, Penanganan Awal, serta menyediakan kuis dan video edukasi.
+- **Riwayat Pemeriksaan**: Penyimpanan histori hasil skrining dan pemeriksaan SAGA menggunakan pencatatan database lokal (SQLite).
+- **Bantuan & Profil**: Manajemen data profil, tanya jawab, informasi aplikasi, dan kebijakan privasi.
+
+## 🛠️ Teknologi yang Digunakan
+
+- **Framework**: [React Native](https://reactnative.dev) dengan [Expo](https://expo.dev/)
+- **Bahasa**: [TypeScript](https://www.typescriptlang.org/)
+- **Navigasi**: [React Navigation](https://reactnavigation.org/) (Stack & Bottom Tabs)
+- **Styling**: [NativeWind (Tailwind CSS)](https://www.nativewind.dev/)
+- **Database**: [Expo SQLite](https://docs.expo.dev/versions/latest/sdk/sqlite/)
+- **Visualisasi**: [React Native Chart Kit](https://github.com/indiespirit/react-native-chart-kit)
+
+## 🚀 Panduan Instalasi & Menjalankan Aplikasi
+
+1. **Install dependensi**
+
+   Pastikan Anda sudah memiliki Node.js terinstal, lalu jalankan:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. **Jalankan aplikasi di mode pengembangan**
 
    ```bash
-   npx expo start
+   npm start
    ```
 
-In the output, you'll find options to open the app in a
+Pada terminal atau command prompt, ikuti opsi yang diberikan Expo:
+- Tekan **`a`** untuk membuka di **Android Emulator**
+- Tekan **`i`** untuk membuka di **iOS Simulator** (khusus macOS)
+- **Perangkat Fisik**: Pindai QR code menggunakan aplikasi kamera (iOS) / aplikasi Expo Go (Android) untuk melihat secara langsung.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 📂 Struktur Folder Proyek
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```text
+src/
+├── components/    # Komponen antarmuka yang reusable (Header, Button, Card, dll.)
+├── database/      # Konfigurasi dan inisialisasi SQLite lokal
+├── navigation/    # Pengaturan rute halaman (AppNavigator)
+├── screens/       # Seluruh halaman (Screeen) aplikasi
+│   ├── beranda/      # Menu Utama, Riwayat, SAGA
+│   ├── edukasi/      # Modul Edukasi, Kuis, Infografis
+│   ├── tanda-bahaya/ # Skrining dan Penilaian
+│   └── ...
+└── utils/         # Fungsi utility bantuan aplikasi
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 📦 Membangun Aplikasi (Build)
 
-## Learn more
+Proyek ini telah dikonfigurasi menggunakan [EAS (Expo Application Services)](https://expo.dev/eas).
+Bila Anda ingin melakukan *build* ke APK, pastikan `eas-cli` sudah terinstal:
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npm install -g eas-cli
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Lalu jalankan perintah berikut untuk Android:
+```bash
+eas build --platform android --profile preview
+```
