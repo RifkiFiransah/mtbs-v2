@@ -40,21 +40,6 @@ Pada terminal atau command prompt, ikuti opsi yang diberikan Expo:
 - Tekan **`i`** untuk membuka di **iOS Simulator** (khusus macOS)
 - **Perangkat Fisik**: Pindai QR code menggunakan aplikasi kamera (iOS) / aplikasi Expo Go (Android) untuk melihat secara langsung.
 
-## 📂 Struktur Folder Proyek
-
-```text
-src/
-├── components/    # Komponen antarmuka yang reusable (Header, Button, Card, dll.)
-├── database/      # Konfigurasi dan inisialisasi SQLite lokal
-├── navigation/    # Pengaturan rute halaman (AppNavigator)
-├── screens/       # Seluruh halaman (Screeen) aplikasi
-│   ├── beranda/      # Menu Utama, Riwayat, SAGA
-│   ├── edukasi/      # Modul Edukasi, Kuis, Infografis
-│   ├── tanda-bahaya/ # Skrining dan Penilaian
-│   └── ...
-└── utils/         # Fungsi utility bantuan aplikasi
-```
-
 ## 📦 Membangun Aplikasi (Build)
 
 Proyek ini telah dikonfigurasi menggunakan [EAS (Expo Application Services)](https://expo.dev/eas).
