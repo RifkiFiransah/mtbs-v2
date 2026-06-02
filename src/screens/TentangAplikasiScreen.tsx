@@ -22,7 +22,6 @@ export const TentangAplikasiScreen = ({
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.card}>
             <Text style={styles.title}>MTBS Pintar</Text>
-            <Text style={styles.version}>Versi 1.0.0</Text>
             <View style={styles.divider} />
             <Text style={styles.description}>
               Aplikasi MTBS Pintar adalah sebuah inovasi yang dirancang untuk
@@ -39,8 +38,7 @@ export const TentangAplikasiScreen = ({
             <Text style={styles.subtitle}>Tentang Aplikasi</Text>
             <Text style={styles.description}>
               Aplikasi ini dikembangkan oleh Devi Amalia Darojatun (CKR0220092)
-              Universitas Bakti Husada Indonesia. Kami berdedikasi untuk terus
-              meningkatkan kualitas kesehatan keluarga Indonesia.
+              Universitas Bakti Husada Indonesia.
             </Text>
             <View style={styles.profileCard}>
               <Text style={styles.profileTitle}>Profil Pemilik</Text>
