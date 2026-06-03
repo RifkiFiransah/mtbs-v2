@@ -1,8 +1,8 @@
-# MTBS Pintar 🩺
+# MTBS Pintar
 
 Aplikasi **MTBS Pintar** adalah aplikasi mobile berbasis React Native (Expo) yang ditujukan untuk membantu penilaian kondisi anak dan balita melalui pedoman **Manajemen Terpadu Balita Sakit (MTBS)** dan **Penilaian Segitiga SAGA (Pediatric Assessment Triangle)**.
 
-## ✨ Fitur Utama
+## Fitur Utama
 
 - **Penilaian Tanda Bahaya**: Deteksi dini kondisi kritis pada anak (Kejang, Muntah, Penurunan Kesadaran, Sesak Nafas, Tidak Bisa Minum).
 - **Penilaian SAGA**: Penilaian awal kegawatdaruratan anak menggunakan Segitiga SAGA dengan parameter Penampilan, Usaha Nafas, dan Sirkulasi Kulit.
@@ -10,7 +10,7 @@ Aplikasi **MTBS Pintar** adalah aplikasi mobile berbasis React Native (Expo) yan
 - **Riwayat Pemeriksaan**: Penyimpanan histori hasil skrining dan pemeriksaan SAGA menggunakan pencatatan database lokal (SQLite).
 - **Bantuan & Profil**: Manajemen data profil, tanya jawab, informasi aplikasi, dan kebijakan privasi.
 
-## 🛠️ Teknologi yang Digunakan
+## Teknologi yang Digunakan
 
 - **Framework**: [React Native](https://reactnative.dev) dengan [Expo](https://expo.dev/)
 - **Bahasa**: [TypeScript](https://www.typescriptlang.org/)
@@ -19,7 +19,7 @@ Aplikasi **MTBS Pintar** adalah aplikasi mobile berbasis React Native (Expo) yan
 - **Database**: [Expo SQLite](https://docs.expo.dev/versions/latest/sdk/sqlite/)
 - **Visualisasi**: [React Native Chart Kit](https://github.com/indiespirit/react-native-chart-kit)
 
-## 🚀 Panduan Instalasi & Menjalankan Aplikasi
+## Panduan Instalasi & Menjalankan Aplikasi
 
 1. **Install dependensi**
 
@@ -36,20 +36,22 @@ Aplikasi **MTBS Pintar** adalah aplikasi mobile berbasis React Native (Expo) yan
    ```
 
 Pada terminal atau command prompt, ikuti opsi yang diberikan Expo:
+
 - Tekan **`a`** untuk membuka di **Android Emulator**
 - Tekan **`i`** untuk membuka di **iOS Simulator** (khusus macOS)
 - **Perangkat Fisik**: Pindai QR code menggunakan aplikasi kamera (iOS) / aplikasi Expo Go (Android) untuk melihat secara langsung.
 
-## 📦 Membangun Aplikasi (Build)
+## Membangun Aplikasi (Build)
 
 Proyek ini telah dikonfigurasi menggunakan [EAS (Expo Application Services)](https://expo.dev/eas).
-Bila Anda ingin melakukan *build* ke APK, pastikan `eas-cli` sudah terinstal:
+Bila Anda ingin melakukan _build_ ke APK, pastikan `eas-cli` sudah terinstal:
 
 ```bash
 npm install -g eas-cli
 ```
 
 Lalu jalankan perintah berikut untuk Android:
+
 ```bash
 eas build --platform android --profile preview
 ```
