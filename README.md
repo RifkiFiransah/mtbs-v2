@@ -35,12 +35,6 @@ Aplikasi **MTBS Pintar** adalah aplikasi mobile berbasis React Native (Expo) yan
    npm start
    ```
 
-Pada terminal atau command prompt, ikuti opsi yang diberikan Expo:
-
-- Tekan **`a`** untuk membuka di **Android Emulator**
-- Tekan **`i`** untuk membuka di **iOS Simulator** (khusus macOS)
-- **Perangkat Fisik**: Pindai QR code menggunakan aplikasi kamera (iOS) / aplikasi Expo Go (Android) untuk melihat secara langsung.
-
 ## Membangun Aplikasi (Build)
 
 Proyek ini telah dikonfigurasi menggunakan [EAS (Expo Application Services)](https://expo.dev/eas).

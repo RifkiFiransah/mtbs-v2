@@ -75,6 +75,35 @@ const getStatusFromClassification = (
   }
 };
 
+// Ganti dengan Web App URL dari Google Apps Script Anda
+const GOOGLE_SHEETS_URL =
+  "https://script.google.com/macros/s/GANTI_DENGAN_URL_ANDA/exec";
+
+// Fungsi untuk mengirim data ke Google Sheets
+const sendToGoogleSheets = async (data: any) => {
+  if (GOOGLE_SHEETS_URL.includes("GANTI_DENGAN_URL_ANDA")) {
+    console.warn(
+      "⚠️ URL Google Sheets belum diatur. Mengabaikan pengiriman ke spreadsheet.",
+    );
+    return;
+  }
+
+  try {
+    await fetch(GOOGLE_SHEETS_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    // Server Apps Script akan merespon sukses
+    console.log("✅ Berhasil mengirim data ke Google Sheets");
+  } catch (error) {
+    console.error("❌ Gagal mengirim ke Google Sheets:", error);
+  }
+};
+
 // Fungsi helper untuk menyimpan hasil SAGA ke database
 const saveSagaRecord = async (
   nik: string,
@@ -127,6 +156,33 @@ const saveSagaRecord = async (
       classification,
       status,
     );
+
+    // Siapkan data untuk Google Sheets
+    const sheetData = {
+      tanggal: tanggalStr,
+      jam: jamStr,
+      nik,
+      alamat,
+      endemisMalaria: endemisYa ? "YA" : "TIDAK",
+      rdtMalaria,
+      nama,
+      jenisKelamin: gender,
+      umurTahun,
+      umurBulan,
+      beratBadan: berat,
+      pbTb,
+      lila,
+      lingkarKepala,
+      suhu,
+      keluhan,
+      kunjunganPertama,
+      kunjunganUlang,
+      klasifikasi: classification,
+      status,
+    };
+
+    // Kirim data ke Spreadsheet secara background (tidak memblokir UI)
+    sendToGoogleSheets(sheetData);
 
     console.log("✅ SAGA Record saved successfully");
     return true;
