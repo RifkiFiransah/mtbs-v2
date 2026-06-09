@@ -77,11 +77,15 @@ const getStatusFromClassification = (
 
 // Ganti dengan Web App URL dari Google Apps Script Anda
 const GOOGLE_SHEETS_URL =
-  "https://script.google.com/macros/s/GANTI_DENGAN_URL_ANDA/exec";
+  "https://script.google.com/macros/s/AKfycby7f5vFKNCFxj-DI0Yq6ZBrlGFk5BsRfjRTg0gk07l2SUFXmt_Xvuj529pQb1id-zZoiw/exec";
 
 // Fungsi untuk mengirim data ke Google Sheets
 const sendToGoogleSheets = async (data: any) => {
-  if (GOOGLE_SHEETS_URL.includes("GANTI_DENGAN_URL_ANDA")) {
+  if (
+    GOOGLE_SHEETS_URL.includes(
+      "AKfycby7f5vFKNCFxj-DI0Yq6ZBrlGFk5BsRfjRTg0gk07l2SUFXmt_Xvuj529pQb1id-zZoiw",
+    )
+  ) {
     console.warn(
       "⚠️ URL Google Sheets belum diatur. Mengabaikan pengiriman ke spreadsheet.",
     );
