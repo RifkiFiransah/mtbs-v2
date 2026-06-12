@@ -81,11 +81,7 @@ const GOOGLE_SHEETS_URL =
 
 // Fungsi untuk mengirim data ke Google Sheets
 const sendToGoogleSheets = async (data: any) => {
-  if (
-    GOOGLE_SHEETS_URL.includes(
-      "AKfycby7f5vFKNCFxj-DI0Yq6ZBrlGFk5BsRfjRTg0gk07l2SUFXmt_Xvuj529pQb1id-zZoiw",
-    )
-  ) {
+  if (GOOGLE_SHEETS_URL.trim() === "") {
     console.warn(
       "⚠️ URL Google Sheets belum diatur. Mengabaikan pengiriman ke spreadsheet.",
     );
@@ -183,6 +179,21 @@ const saveSagaRecord = async (
       kunjunganUlang,
       klasifikasi: classification,
       status,
+      q1: answers[1] === true ? "YA" : answers[1] === false ? "TIDAK" : "-",
+      q2: answers[2] === true ? "YA" : answers[2] === false ? "TIDAK" : "-",
+      q3: answers[3] === true ? "YA" : answers[3] === false ? "TIDAK" : "-",
+      q4: answers[4] === true ? "YA" : answers[4] === false ? "TIDAK" : "-",
+      q5: answers[5] === true ? "YA" : answers[5] === false ? "TIDAK" : "-",
+      q6: answers[6] === true ? "YA" : answers[6] === false ? "TIDAK" : "-",
+      q7: answers[7] === true ? "YA" : answers[7] === false ? "TIDAK" : "-",
+      q8: answers[8] === true ? "YA" : answers[8] === false ? "TIDAK" : "-",
+      q9: answers[9] === true ? "YA" : answers[9] === false ? "TIDAK" : "-",
+      q10: answers[10] === true ? "YA" : answers[10] === false ? "TIDAK" : "-",
+      q11: answers[11] === true ? "YA" : answers[11] === false ? "TIDAK" : "-",
+      q12: answers[12] === true ? "YA" : answers[12] === false ? "TIDAK" : "-",
+      q13: answers[13] === true ? "YA" : answers[13] === false ? "TIDAK" : "-",
+      q14: answers[14] === true ? "YA" : answers[14] === false ? "TIDAK" : "-",
+      q15: answers[15] === true ? "YA" : answers[15] === false ? "TIDAK" : "-",
     };
 
     // Kirim data ke Spreadsheet secara background (tidak memblokir UI)
@@ -736,11 +747,15 @@ export const SagaScreen = ({ navigation }: any) => {
         <View style={styles.iconPlaceholder}>
           <MaterialIcons
             name={
-              question.category === "PENAMPILAN"
-                ? "face"
-                : question.category === "USAHA NAPAS"
-                  ? "masks"
-                  : "favorite"
+              question.category === "TANYAKAN"
+                ? "help-outline"
+                : question.category === "TENTUKAN PENAMPILAN"
+                  ? "face"
+                  : question.category === "TENTUKAN USAHA NAPAS"
+                    ? "masks"
+                    : question.category === "TENTUKAN SIRKULASI"
+                      ? "favorite"
+                      : "help-center"
             }
             size={80}
             color="#1E3A8A"
