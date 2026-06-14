@@ -209,7 +209,11 @@ const saveSagaRecord = async (
 
 // Data for SAGA Questions
 const SAGA_QUESTIONS = [
-  { id: 1, category: "TANYAKAN", text: "Apakah anak bisa minum atau menyusu?" },
+  {
+    id: 1,
+    category: "TANYAKAN",
+    text: "Apakah anak tidak bisa minum atau menyusu?",
+  },
   {
     id: 2,
     category: "TANYAKAN",
